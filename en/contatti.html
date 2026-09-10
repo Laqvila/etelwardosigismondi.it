@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="index, follow">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; font-src 'self'; script-src 'self'; connect-src 'self'; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; font-src 'self'; script-src 'self' https://challenges.cloudflare.com; connect-src 'self'; frame-src https://challenges.cloudflare.com; object-src 'none'; base-uri 'self'; form-action 'self'">
 <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
 <meta http-equiv="X-Content-Type-Options" content="nosniff">
 <meta name="theme-color" content="#0B2A50">
@@ -133,7 +133,7 @@
           <div class="hp" aria-hidden="true"><label for="cf-sito">Sito web</label><input type="text" id="cf-sito" name="sito" tabindex="-1" autocomplete="off"></div>
           <input type="hidden" name="lingua" value="en">
           <input type="hidden" name="t" value="">
-          
+          <div class="cf-turnstile" data-sitekey="0x4AAAAAAEuzJt8daW2LC2KJ" data-language="en" data-size="flexible" data-theme="light"></div>
           <div><button type="submit" class="btn btn-primary">Send the report</button></div>
           <noscript><p class="form-note">JavaScript is required to send the form. Alternatively, write directly to <a href="mailto:etelwardo.sigismondi@senato.it">etelwardo.sigismondi@senato.it</a></p></noscript>
           <p class="form-note">The form forwards the message, through the site&#x27;s Cloudflare infrastructure, to the Senator&#x27;s institutional email: no data is stored on this site. An automatic check (Cloudflare Turnstile), which uses no profiling cookies, protects against spam.</p>
@@ -154,7 +154,7 @@
     </div>
   </section>
 </main>
-
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 
 <footer class="site-footer">
   <div class="container">

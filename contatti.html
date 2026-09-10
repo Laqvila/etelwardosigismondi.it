@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="index, follow">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; font-src 'self'; script-src 'self'; connect-src 'self'; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; font-src 'self'; script-src 'self' https://challenges.cloudflare.com; connect-src 'self'; frame-src https://challenges.cloudflare.com; object-src 'none'; base-uri 'self'; form-action 'self'">
 <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
 <meta http-equiv="X-Content-Type-Options" content="nosniff">
 <meta name="theme-color" content="#0B2A50">
@@ -133,7 +133,7 @@
           <div class="hp" aria-hidden="true"><label for="cf-sito">Sito web</label><input type="text" id="cf-sito" name="sito" tabindex="-1" autocomplete="off"></div>
           <input type="hidden" name="lingua" value="it">
           <input type="hidden" name="t" value="">
-          
+          <div class="cf-turnstile" data-sitekey="0x4AAAAAAEuzJt8daW2LC2KJ" data-language="it" data-size="flexible" data-theme="light"></div>
           <div><button type="submit" class="btn btn-primary">Invia la segnalazione</button></div>
           <noscript><p class="form-note">Per inviare il modulo serve JavaScript. In alternativa scrivi direttamente a <a href="mailto:etelwardo.sigismondi@senato.it">etelwardo.sigismondi@senato.it</a></p></noscript>
           <p class="form-note">Il modulo trasmette il messaggio, attraverso l&#x27;infrastruttura Cloudflare del sito, all&#x27;email istituzionale del Senatore: nessun dato viene memorizzato su questo sito. Contro lo spam è attiva una verifica automatica (Cloudflare Turnstile) che non usa cookie di profilazione.</p>
@@ -154,7 +154,7 @@
     </div>
   </section>
 </main>
-
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 
 <footer class="site-footer">
   <div class="container">

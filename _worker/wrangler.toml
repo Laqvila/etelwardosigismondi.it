@@ -35,9 +35,12 @@ simple = { limit = 5, period = 60 }
 # Mittente: un indirizzo del dominio (Email Routing lo accetta anche se non
 # esiste una casella). Il Reply-To e' l'email di chi compila il modulo.
 MITTENTE = "segnalazioni@etelwardosigismondi.it"
-# Destinatario: la casella istituzionale, appena verificata in Email Routing.
-# Finche' la verifica non e' stata cliccata dallo staff, un indirizzo di prova.
-DESTINATARIO = "etelwardo.sigismondi@senato.it"
+# Destinatario. L'indirizzo istituzionale etelwardo.sigismondi@senato.it e' stato
+# aggiunto in Email Routing il 2026-09-10 ed e' IN ATTESA della verifica (lo staff
+# deve cliccare il link nell'email di Cloudflare). Finche' non risulta "Verified",
+# le segnalazioni arrivano all'indirizzo di prova; poi si sostituisce e si rifa'
+# `npx wrangler deploy`.
+DESTINATARIO = "mirko.rocci@gmail.com"
 # Origini da cui il modulo puo' chiamare il Worker (CORS): sito e anteprima.
 ORIGINI = "https://etelwardosigismondi.it,https://www.etelwardosigismondi.it,https://laqvila.github.io"
 # Dove rimandare chi invia senza JavaScript.
