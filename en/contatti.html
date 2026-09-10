@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="index, follow">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; font-src 'self'; script-src 'self' https://challenges.cloudflare.com; connect-src 'self'; frame-src https://challenges.cloudflare.com; object-src 'none'; base-uri 'self'; form-action 'self'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; font-src 'self'; script-src 'self'; connect-src 'self'; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self'">
 <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
 <meta http-equiv="X-Content-Type-Options" content="nosniff">
 <meta name="theme-color" content="#0B2A50">
@@ -96,7 +96,7 @@
         <h2>Send a report</h2>
         <p>An issue in your municipality, an infrastructure, a public service, a proposal. Tell the facts with data and references: the message reaches the Senator&#x27;s institutional email and the reply comes to the contact details you give.</p>
         <div class="form-status" role="status" aria-live="polite" tabindex="-1"></div>
-        <form id="contact-form" class="form" method="post" action="/api/segnala" novalidate data-endpoint="/api/segnala" data-sending="Sending…" data-ok-h="Report sent" data-ok-p="Thank you. The message has reached the Senator&#x27;s institutional mailbox: the reply will come to the contact details you gave, parliamentary business permitting." data-fail="Sending failed. Try again in a few minutes or write directly to" data-captcha="The anti-spam check is not complete yet: wait a moment and try again." data-mail="etelwardo.sigismondi@senato.it">
+        <form id="contact-form" class="form" method="post" action="#segnalazione" novalidate data-endpoint="" data-sending="Sending…" data-ok-h="Report sent" data-ok-p="Thank you. The message has reached the Senator&#x27;s institutional mailbox: the reply will come to the contact details you gave, parliamentary business permitting." data-fail="Sending failed. Try again in a few minutes or write directly to" data-captcha="The anti-spam check is not complete yet: wait a moment and try again." data-mail="etelwardo.sigismondi@senato.it" data-mailto-h="Email ready in your email program" data-mailto-p="Check the text and press Send in your email program. If nothing opened, copy the message and write directly to">
           <p class="form-required-note">Fields marked with an asterisk (*) are required.</p>
           <div class="form-field">
             <label for="cf-reason">Reason for the message</label>
@@ -138,10 +138,10 @@
           <div class="hp" aria-hidden="true"><label for="cf-sito">Sito web</label><input type="text" id="cf-sito" name="sito" tabindex="-1" autocomplete="off"></div>
           <input type="hidden" name="lingua" value="en">
           <input type="hidden" name="t" value="">
-          <div class="cf-turnstile" data-sitekey="0x4AAAAAAEuzJt8daW2LC2KJ" data-language="en" data-size="flexible" data-theme="light"></div>
-          <div><button type="submit" class="btn btn-primary">Send the report</button></div>
+          
+          <div><button type="submit" class="btn btn-primary">Prepare the email</button></div>
           <noscript><p class="form-note">JavaScript is required to send the form. Alternatively, write directly to <a href="mailto:etelwardo.sigismondi@senato.it">etelwardo.sigismondi@senato.it</a></p></noscript>
-          <p class="form-note">The form forwards the message, through the site&#x27;s Cloudflare infrastructure, to the Senator&#x27;s institutional email: no data is stored on this site. An automatic check (Cloudflare Turnstile), which uses no profiling cookies, protects against spam.</p>
+          <p class="form-note">For now the form sends nothing from this site: the button opens your email program with the message already written, addressed to the Senator&#x27;s institutional email. No data is transmitted to or stored on this site.</p>
           <p class="form-note">Response times depend on parliamentary activity and are not guaranteed.</p>
         </form>
       </div>
@@ -159,7 +159,7 @@
     </div>
   </section>
 </main>
-<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+
 
 <footer class="site-footer">
   <div class="container">
@@ -201,7 +201,7 @@
     </div>
     <div class="footer-bottom">
       <p>Communication website of Senator Etelwardo Sigismondi. It is not the official website of the Senate of the Republic.</p>
-      <p>No cookies, no tracking, fonts hosted on the site. Reports sent through the form go straight to the Senator&#x27;s institutional mailbox.</p>
+      <p>No cookies, no tracking, fonts hosted on the site. The form composes an email in your own email program, addressed to the Senator&#x27;s institutional mailbox: nothing passes through this site.</p>
       <p><a href="privacy.html">Privacy</a> · <a href="cookie.html">Cookies</a> · <a href="accessibilita.html">Accessibility</a> · <a href="note-legali.html">Legal notice</a></p>
       <p>© 2026 Etelwardo Sigismondi · Designed and developed with the help of artificial-intelligence tools, under human review and editorial responsibility.</p>
     </div>
@@ -212,6 +212,6 @@
   <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 14 6-6 6 6"/></svg>
 </button>
 
-<script src="../assets/js/main.js?v=b461d446" defer></script>
+<script src="../assets/js/main.js?v=e12f74f5" defer></script>
 </body>
 </html>

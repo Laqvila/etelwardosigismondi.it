@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="index, follow">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; font-src 'self'; script-src 'self' https://challenges.cloudflare.com; connect-src 'self'; frame-src https://challenges.cloudflare.com; object-src 'none'; base-uri 'self'; form-action 'self'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; font-src 'self'; script-src 'self'; connect-src 'self'; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self'">
 <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
 <meta http-equiv="X-Content-Type-Options" content="nosniff">
 <meta name="theme-color" content="#0B2A50">
@@ -96,7 +96,7 @@
         <h2>Enviar una comunicación</h2>
         <p>Una cuestión de tu municipio, una infraestructura, un servicio, una propuesta. Cuenta los hechos con datos y referencias: el mensaje llega al correo institucional del senador y la respuesta, a los contactos que indiques.</p>
         <div class="form-status" role="status" aria-live="polite" tabindex="-1"></div>
-        <form id="contact-form" class="form" method="post" action="/api/segnala" novalidate data-endpoint="/api/segnala" data-sending="Enviando…" data-ok-h="Comunicación enviada" data-ok-p="Gracias. El mensaje ha llegado al buzón institucional del senador: la respuesta llegará a los contactos indicados, en la medida en que lo permita la actividad parlamentaria." data-fail="El envío no se ha completado. Inténtalo de nuevo en unos minutos o escribe directamente a" data-captcha="La verificación antispam aún no se ha completado: espera un instante y vuelve a intentarlo." data-mail="etelwardo.sigismondi@senato.it">
+        <form id="contact-form" class="form" method="post" action="#segnalazione" novalidate data-endpoint="" data-sending="Enviando…" data-ok-h="Comunicación enviada" data-ok-p="Gracias. El mensaje ha llegado al buzón institucional del senador: la respuesta llegará a los contactos indicados, en la medida en que lo permita la actividad parlamentaria." data-fail="El envío no se ha completado. Inténtalo de nuevo en unos minutos o escribe directamente a" data-captcha="La verificación antispam aún no se ha completado: espera un instante y vuelve a intentarlo." data-mail="etelwardo.sigismondi@senato.it" data-mailto-h="Correo listo en tu programa de correo" data-mailto-p="Revisa el texto y pulsa Enviar en tu programa de correo. Si no se ha abierto nada, copia el mensaje y escribe directamente a">
           <p class="form-required-note">Los campos marcados con asterisco (*) son obligatorios.</p>
           <div class="form-field">
             <label for="cf-reason">Motivo del mensaje</label>
@@ -138,10 +138,10 @@
           <div class="hp" aria-hidden="true"><label for="cf-sito">Sito web</label><input type="text" id="cf-sito" name="sito" tabindex="-1" autocomplete="off"></div>
           <input type="hidden" name="lingua" value="es">
           <input type="hidden" name="t" value="">
-          <div class="cf-turnstile" data-sitekey="0x4AAAAAAEuzJt8daW2LC2KJ" data-language="es" data-size="flexible" data-theme="light"></div>
-          <div><button type="submit" class="btn btn-primary">Enviar la comunicación</button></div>
+          
+          <div><button type="submit" class="btn btn-primary">Preparar el correo</button></div>
           <noscript><p class="form-note">Para enviar el formulario se necesita JavaScript. Como alternativa, escribe directamente a <a href="mailto:etelwardo.sigismondi@senato.it">etelwardo.sigismondi@senato.it</a></p></noscript>
-          <p class="form-note">El formulario transmite el mensaje, a través de la infraestructura Cloudflare del sitio, al correo institucional del senador: ningún dato se guarda en este sitio. Contra el spam actúa una verificación automática (Cloudflare Turnstile) que no usa cookies de perfilado.</p>
+          <p class="form-note">Por ahora el formulario no envía nada desde este sitio: el botón abre tu programa de correo con el mensaje ya redactado, dirigido al correo institucional del senador. Ningún dato se transmite ni se guarda en este sitio.</p>
           <p class="form-note">Los tiempos de respuesta dependen de la actividad parlamentaria: no están garantizados.</p>
         </form>
       </div>
@@ -159,7 +159,7 @@
     </div>
   </section>
 </main>
-<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+
 
 <footer class="site-footer">
   <div class="container">
@@ -201,7 +201,7 @@
     </div>
     <div class="footer-bottom">
       <p>Sitio de comunicación del Senador Etelwardo Sigismondi. No es el sitio oficial del Senado de la República.</p>
-      <p>Sin cookies, sin rastreo, tipografías alojadas en el sitio. Las comunicaciones enviadas desde el formulario llegan directamente al buzón institucional del senador.</p>
+      <p>Sin cookies, sin rastreo, tipografías alojadas en el sitio. El formulario redacta un correo en tu propio programa de correo, dirigido al buzón institucional del senador: nada pasa por este sitio.</p>
       <p><a href="privacy.html">Privacidad</a> · <a href="cookie.html">Cookies</a> · <a href="accessibilita.html">Accesibilidad</a> · <a href="note-legali.html">Aviso legal</a></p>
       <p>© 2026 Etelwardo Sigismondi · Diseño y desarrollo con ayuda de herramientas de inteligencia artificial, bajo revisión y responsabilidad editorial humanas.</p>
     </div>
@@ -212,6 +212,6 @@
   <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 14 6-6 6 6"/></svg>
 </button>
 
-<script src="../assets/js/main.js?v=b461d446" defer></script>
+<script src="../assets/js/main.js?v=e12f74f5" defer></script>
 </body>
 </html>

@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="index, follow">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; font-src 'self'; script-src 'self' https://challenges.cloudflare.com; connect-src 'self'; frame-src https://challenges.cloudflare.com; object-src 'none'; base-uri 'self'; form-action 'self'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; font-src 'self'; script-src 'self'; connect-src 'self'; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self'">
 <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
 <meta http-equiv="X-Content-Type-Options" content="nosniff">
 <meta name="theme-color" content="#0B2A50">
@@ -96,7 +96,7 @@
         <h2>Eine Meldung senden</h2>
         <p>Ein Anliegen Ihrer Gemeinde, eine Infrastruktur, eine Dienstleistung, ein Vorschlag. Schildern Sie die Fakten mit Daten und Belegen: Die Nachricht erreicht die institutionelle E-Mail-Adresse des Senators, die Antwort kommt an die von Ihnen angegebenen Kontaktdaten.</p>
         <div class="form-status" role="status" aria-live="polite" tabindex="-1"></div>
-        <form id="contact-form" class="form" method="post" action="/api/segnala" novalidate data-endpoint="/api/segnala" data-sending="Wird gesendet…" data-ok-h="Meldung gesendet" data-ok-p="Vielen Dank. Die Nachricht ist im institutionellen Postfach des Senators eingegangen: Die Antwort kommt an die angegebenen Kontaktdaten, soweit es die parlamentarische Arbeit erlaubt." data-fail="Das Senden ist fehlgeschlagen. Versuchen Sie es in einigen Minuten erneut oder schreiben Sie direkt an" data-captcha="Die Spam-Prüfung ist noch nicht abgeschlossen: Warten Sie einen Moment und versuchen Sie es erneut." data-mail="etelwardo.sigismondi@senato.it">
+        <form id="contact-form" class="form" method="post" action="#segnalazione" novalidate data-endpoint="" data-sending="Wird gesendet…" data-ok-h="Meldung gesendet" data-ok-p="Vielen Dank. Die Nachricht ist im institutionellen Postfach des Senators eingegangen: Die Antwort kommt an die angegebenen Kontaktdaten, soweit es die parlamentarische Arbeit erlaubt." data-fail="Das Senden ist fehlgeschlagen. Versuchen Sie es in einigen Minuten erneut oder schreiben Sie direkt an" data-captcha="Die Spam-Prüfung ist noch nicht abgeschlossen: Warten Sie einen Moment und versuchen Sie es erneut." data-mail="etelwardo.sigismondi@senato.it" data-mailto-h="E-Mail in Ihrem E-Mail-Programm bereit" data-mailto-p="Prüfen Sie den Text und klicken Sie in Ihrem E-Mail-Programm auf Senden. Falls sich nichts geöffnet hat, kopieren Sie die Nachricht und schreiben Sie direkt an">
           <p class="form-required-note">Mit Sternchen (*) gekennzeichnete Felder sind Pflichtfelder.</p>
           <div class="form-field">
             <label for="cf-reason">Grund der Nachricht</label>
@@ -138,10 +138,10 @@
           <div class="hp" aria-hidden="true"><label for="cf-sito">Sito web</label><input type="text" id="cf-sito" name="sito" tabindex="-1" autocomplete="off"></div>
           <input type="hidden" name="lingua" value="de">
           <input type="hidden" name="t" value="">
-          <div class="cf-turnstile" data-sitekey="0x4AAAAAAEuzJt8daW2LC2KJ" data-language="de" data-size="flexible" data-theme="light"></div>
-          <div><button type="submit" class="btn btn-primary">Meldung senden</button></div>
+          
+          <div><button type="submit" class="btn btn-primary">E-Mail vorbereiten</button></div>
           <noscript><p class="form-note">Zum Senden des Formulars ist JavaScript erforderlich. Alternativ schreiben Sie direkt an <a href="mailto:etelwardo.sigismondi@senato.it">etelwardo.sigismondi@senato.it</a></p></noscript>
-          <p class="form-note">Das Formular übermittelt die Nachricht über die Cloudflare-Infrastruktur der Website an die institutionelle E-Mail-Adresse des Senators: Auf dieser Website werden keine Daten gespeichert. Gegen Spam läuft eine automatische Prüfung (Cloudflare Turnstile), die keine Profiling-Cookies verwendet.</p>
+          <p class="form-note">Derzeit sendet das Formular nichts von dieser Website: Die Schaltfläche öffnet Ihr E-Mail-Programm mit der bereits verfassten Nachricht an die institutionelle E-Mail-Adresse des Senators. Es werden keine Daten an diese Website übermittelt oder dort gespeichert.</p>
           <p class="form-note">Die Antwortzeiten hängen von der parlamentarischen Tätigkeit ab: Sie sind nicht garantiert.</p>
         </form>
       </div>
@@ -159,7 +159,7 @@
     </div>
   </section>
 </main>
-<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+
 
 <footer class="site-footer">
   <div class="container">
@@ -201,7 +201,7 @@
     </div>
     <div class="footer-bottom">
       <p>Kommunikationswebsite des Senators Etelwardo Sigismondi. Dies ist nicht die offizielle Website des Senats der Republik.</p>
-      <p>Keine Cookies, kein Tracking, Schriften auf der Website gehostet. Über das Formular gesendete Meldungen gelangen direkt in das institutionelle Postfach des Senators.</p>
+      <p>Keine Cookies, kein Tracking, Schriften auf der Website gehostet. Das Formular verfasst eine E-Mail in Ihrem eigenen E-Mail-Programm an das institutionelle Postfach des Senators: Nichts läuft über diese Website.</p>
       <p><a href="privacy.html">Datenschutz</a> · <a href="cookie.html">Cookies</a> · <a href="accessibilita.html">Barrierefreiheit</a> · <a href="note-legali.html">Rechtliche Hinweise</a></p>
       <p>© 2026 Etelwardo Sigismondi · Gestaltung und Entwicklung mit Unterstützung von Werkzeugen der künstlichen Intelligenz, unter menschlicher Prüfung und redaktioneller Verantwortung.</p>
     </div>
@@ -212,6 +212,6 @@
   <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 14 6-6 6 6"/></svg>
 </button>
 
-<script src="../assets/js/main.js?v=b461d446" defer></script>
+<script src="../assets/js/main.js?v=e12f74f5" defer></script>
 </body>
 </html>

@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="index, follow">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; font-src 'self'; script-src 'self' https://challenges.cloudflare.com; connect-src 'self'; frame-src https://challenges.cloudflare.com; object-src 'none'; base-uri 'self'; form-action 'self'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; font-src 'self'; script-src 'self'; connect-src 'self'; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self'">
 <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
 <meta http-equiv="X-Content-Type-Options" content="nosniff">
 <meta name="theme-color" content="#0B2A50">
@@ -98,9 +98,9 @@
       <h2>Report form: which data and why</h2>
       <p>By filling in the form on the Contacts page you send: name and surname, email address, subject and message (required); telephone number and municipality (optional, only if you provide them). Purpose: to follow up the report or message and reply to you. Legal basis: the processing is necessary to act on your request (Article 6(1)(b)) and meets the Senator's legitimate interest in receiving citizens' requests within the parliamentary mandate (point (f)). Providing the data is voluntary, but without the required fields no reply is possible. If your message contains special categories of data (for example about health), they are processed on the basis of the explicit consent given by sending it (Article 9(2)(a)): please write only what is necessary.</p>
       <h2>How the message travels</h2>
-      <p>The form stores nothing on this site: the message is forwarded by a service of the Cloudflare infrastructure directly to the Senator's institutional mailbox at the Senate of the Republic, with your email address as the reply address. Before sending, an automatic anti-spam check (Cloudflare Turnstile) verifies that the request does not come from an automated program, by analysing technical browser signals without profiling cookies and without building a profile of the visitor. The sending service processes the IP address only for the anti-spam check and to limit abuse, without storing it.</p>
+      <p>For now the form sends nothing from this site: the button opens your email program with the message already written, addressed to <a href="mailto:etelwardo.sigismondi@senato.it">etelwardo.sigismondi@senato.it</a>. The data travels from your email program to the Senator's institutional mailbox at the Senate of the Republic, without passing through this site's servers or any anti-spam service; the site's infrastructure neither receives, processes nor retains it.</p>
       <h2>Recipients and providers</h2>
-      <p>The data is known to the Senator and to the staff of his office who handle correspondence. Infrastructure providers, processing data on behalf of the controller under Article 28: <strong>Cloudflare, Inc.</strong> (content delivery network, DNS, protection, anti-spam check and forwarding of the message) and <strong>GitHub, Inc.</strong> (hosting of the static pages). The institutional mailbox is run by the systems of the Senate of the Republic under the Administration's rules. The data is neither disclosed nor transferred to third parties for commercial purposes.</p>
+      <p>The data is known to the Senator and to the staff of his office who handle correspondence. Infrastructure providers, processing only technical browsing data on behalf of the controller under Article 28: <strong>Cloudflare, Inc.</strong> (content delivery network, DNS, protection) and <strong>GitHub, Inc.</strong> (hosting of the static pages). The institutional mailbox is run by the systems of the Senate of the Republic under the Administration's rules. The data is neither disclosed nor transferred to third parties for commercial purposes.</p>
       <h2>Transfers outside the European Union</h2>
       <p>Cloudflare and GitHub are based in the United States and participate in the EU-US Data Privacy Framework, recognised as adequate by the European Commission (decision of 10 July 2023); their data-processing agreements also include the standard contractual clauses. Pages are served from European nodes whenever possible.</p>
       <h2>Retention</h2>
@@ -155,7 +155,7 @@
     </div>
     <div class="footer-bottom">
       <p>Communication website of Senator Etelwardo Sigismondi. It is not the official website of the Senate of the Republic.</p>
-      <p>No cookies, no tracking, fonts hosted on the site. Reports sent through the form go straight to the Senator&#x27;s institutional mailbox.</p>
+      <p>No cookies, no tracking, fonts hosted on the site. The form composes an email in your own email program, addressed to the Senator&#x27;s institutional mailbox: nothing passes through this site.</p>
       <p><a href="privacy.html">Privacy</a> · <a href="cookie.html">Cookies</a> · <a href="accessibilita.html">Accessibility</a> · <a href="note-legali.html">Legal notice</a></p>
       <p>© 2026 Etelwardo Sigismondi · Designed and developed with the help of artificial-intelligence tools, under human review and editorial responsibility.</p>
     </div>
@@ -166,6 +166,6 @@
   <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 14 6-6 6 6"/></svg>
 </button>
 
-<script src="../assets/js/main.js?v=b461d446" defer></script>
+<script src="../assets/js/main.js?v=e12f74f5" defer></script>
 </body>
 </html>

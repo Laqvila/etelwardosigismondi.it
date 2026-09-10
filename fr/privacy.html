@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="index, follow">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; font-src 'self'; script-src 'self' https://challenges.cloudflare.com; connect-src 'self'; frame-src https://challenges.cloudflare.com; object-src 'none'; base-uri 'self'; form-action 'self'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; font-src 'self'; script-src 'self'; connect-src 'self'; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self'">
 <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
 <meta http-equiv="X-Content-Type-Options" content="nosniff">
 <meta name="theme-color" content="#0B2A50">
@@ -98,9 +98,9 @@
       <h2>Formulaire de signalement : quelles données et pourquoi</h2>
       <p>En remplissant le formulaire de la page Contacts, vous envoyez : nom et prénom, adresse e-mail, objet et message (obligatoires) ; numéro de téléphone et commune (facultatifs, seulement si vous les indiquez). Finalité : donner suite au signalement ou au message et vous répondre. Base juridique : le traitement est nécessaire pour donner suite à votre demande (article 6, paragraphe 1, point b) et répond à l'intérêt légitime du sénateur à recevoir les demandes des citoyens dans le cadre de son mandat parlementaire (point f). La fourniture des données est volontaire, mais sans les champs obligatoires aucune réponse n'est possible. Si votre message contient des données particulières (par exemple sur la santé), elles sont traitées sur la base du consentement explicite exprimé par l'envoi (article 9, paragraphe 2, point a) : n'écrivez que ce qui est nécessaire.</p>
       <h2>Le parcours du message</h2>
-      <p>Le formulaire n'enregistre rien sur ce site : le message est transmis par un service de l'infrastructure Cloudflare directement à la boîte institutionnelle du sénateur au Sénat de la République, avec votre adresse e-mail comme adresse de réponse. Avant l'envoi, une vérification antispam automatique (Cloudflare Turnstile) s'assure que la demande ne provient pas d'un programme automatisé, en analysant des signaux techniques du navigateur sans cookies de profilage et sans constituer de profil du visiteur. Le service d'envoi traite l'adresse IP uniquement pour la vérification antispam et la limitation des abus, sans la conserver.</p>
+      <p>Pour l'instant, le formulaire n'envoie rien depuis ce site : le bouton ouvre votre logiciel de messagerie avec le message déjà rédigé, adressé à <a href="mailto:etelwardo.sigismondi@senato.it">etelwardo.sigismondi@senato.it</a>. Les données voyagent de votre logiciel de messagerie à la boîte institutionnelle du sénateur au Sénat de la République, sans passer par les serveurs de ce site ni par un service antispam ; l'infrastructure du site ne les reçoit pas, ne les traite pas et ne les conserve pas.</p>
       <h2>Destinataires et prestataires</h2>
-      <p>Les données sont connues du sénateur et des collaborateurs de son bureau qui gèrent la correspondance. Prestataires de l'infrastructure, traitant les données pour le compte du responsable au sens de l'article 28 : <strong>Cloudflare, Inc.</strong> (réseau de diffusion, DNS, protection, vérification antispam et transmission du message) et <strong>GitHub, Inc.</strong> (hébergement des pages statiques). La boîte institutionnelle est gérée par les systèmes du Sénat de la République selon les règles de l'Administration. Les données ne sont ni diffusées ni cédées à des tiers à des fins commerciales.</p>
+      <p>Les données sont connues du sénateur et des collaborateurs de son bureau qui gèrent la correspondance. Prestataires de l'infrastructure, traitant uniquement les données techniques de navigation pour le compte du responsable au sens de l'article 28 : <strong>Cloudflare, Inc.</strong> (réseau de diffusion, DNS, protection) et <strong>GitHub, Inc.</strong> (hébergement des pages statiques). La boîte institutionnelle est gérée par les systèmes du Sénat de la République selon les règles de l'Administration. Les données ne sont ni diffusées ni cédées à des tiers à des fins commerciales.</p>
       <h2>Transferts hors de l&#x27;Union européenne</h2>
       <p>Cloudflare et GitHub sont établis aux États-Unis et adhèrent au cadre de protection des données UE-États-Unis (Data Privacy Framework), reconnu adéquat par la Commission européenne (décision du 10 juillet 2023) ; leurs accords de traitement prévoient en outre les clauses contractuelles types. Les pages sont servies depuis des nœuds européens chaque fois que possible.</p>
       <h2>Conservation</h2>
@@ -155,7 +155,7 @@
     </div>
     <div class="footer-bottom">
       <p>Site de communication du Sénateur Etelwardo Sigismondi. Ce n’est pas le site officiel du Sénat de la République.</p>
-      <p>Pas de cookies, pas de traçage, polices hébergées sur le site. Les signalements envoyés par le formulaire arrivent directement dans la boîte institutionnelle du sénateur.</p>
+      <p>Pas de cookies, pas de traçage, polices hébergées sur le site. Le formulaire compose un e-mail dans votre logiciel de messagerie, adressé à la boîte institutionnelle du sénateur : rien ne transite par ce site.</p>
       <p><a href="privacy.html">Confidentialité</a> · <a href="cookie.html">Cookies</a> · <a href="accessibilita.html">Accessibilité</a> · <a href="note-legali.html">Mentions légales</a></p>
       <p>© 2026 Etelwardo Sigismondi · Conception et développement avec l&#x27;aide d&#x27;outils d&#x27;intelligence artificielle, sous relecture et responsabilité éditoriale humaines.</p>
     </div>
@@ -166,6 +166,6 @@
   <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 14 6-6 6 6"/></svg>
 </button>
 
-<script src="../assets/js/main.js?v=b461d446" defer></script>
+<script src="../assets/js/main.js?v=e12f74f5" defer></script>
 </body>
 </html>

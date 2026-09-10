@@ -345,7 +345,10 @@
         var msg = document.getElementById("cf-msg").value.trim();
         var name = document.getElementById("cf-name").value.trim();
         var subj = (reason && reason.value ? reason.value + " — " : "") + subject;
-        window.location.href = "mailto:" + mailTo + "?subject=" + encodeURIComponent(subj) + "&body=" + encodeURIComponent(msg + "\n\n— " + name);
+        var recapiti = [name, (document.getElementById("cf-email") || {}).value, (document.getElementById("cf-phone") || {}).value, (document.getElementById("cf-comune") || {}).value]
+          .map(function (v) { return (v || "").trim(); }).filter(Boolean).join(" · ");
+        window.location.href = "mailto:" + mailTo + "?subject=" + encodeURIComponent(subj) + "&body=" + encodeURIComponent(msg + "\n\n— " + recapiti);
+        showStatus("ok", form.getAttribute("data-mailto-h") || "", form.getAttribute("data-mailto-p") || "", true);
         return;
       }
       var token = form.querySelector('input[name="cf-turnstile-response"]');

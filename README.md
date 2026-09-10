@@ -36,7 +36,8 @@ funziona, ma alla rigenerazione successiva le modifiche vanno riportate nei sorg
      record `AAAA` (`2606:50c0:8000::153` … `8003::153`), `CNAME www → laqvila.github.io`;
      tutti "Proxied". Modalità SSL/TLS: **Full**.
    - Email Routing: attivo; mittente del modulo `segnalazioni@etelwardosigismondi.it`;
-     destinatario verificato `etelwardo.sigismondi@senato.it`.
+     destinatario `etelwardo.sigismondi@senato.it` (da verificare: vedi sotto,
+     "Modalità provvisoria").
    - Turnstile: widget "etelwardosigismondi.it" (chiave pubblica nel sito,
      chiave segreta nel Worker).
    - Workers: `etelwardosigismondi-segnala`, rotta `etelwardosigismondi.it/api/*`.
@@ -80,6 +81,28 @@ npx wrangler deploy
 Il destinatario, il mittente e le origini ammesse sono in `_worker/wrangler.toml`
 (`[vars]`). Il destinatario deve essere un **indirizzo verificato** in
 Cloudflare → Email Routing → Destination addresses.
+
+### Modalità provvisoria (attiva finché la casella istituzionale non è verificata)
+
+Cloudflare recapita email solo a indirizzi verificati: la verifica di
+`etelwardo.sigismondi@senato.it` richiede che dalla casella del Senatore si
+apra il messaggio di Cloudflare "Verify your email address" e si prema il
+collegamento. Finché questo non avviene, il sito è pubblicato con
+`"modulo_provvisorio": true` in `_source/config_prod.json`: il modulo **non
+invia nulla dal sito**, ma compone l'email nel programma di posta del
+visitatore, indirizzata alla casella istituzionale. Niente Worker, niente
+Turnstile, e i testi di modulo, privacy, cookie, accessibilità e piè di pagina
+descrivono esattamente questo flusso (varianti `*_mailto` in `gen_site.py` e
+nelle traduzioni). Così nessuna segnalazione passa da caselle di terzi e
+l'informativa dice il vero.
+
+Per passare al modulo con invio diretto, una volta che l'indirizzo risulta
+"Verified" in Email Routing:
+
+1. in `_worker/wrangler.toml` impostare `DESTINATARIO = "etelwardo.sigismondi@senato.it"`
+   e ridistribuire il Worker (`npx wrangler deploy` dentro `_worker/`);
+2. in `_source/config_prod.json` mettere `"modulo_provvisorio": false`;
+3. rigenerare e pubblicare (`python _source/pubblica.py --prod`, commit, push).
 
 ## Passaggio di consegne al Senatore o a un nuovo fornitore
 
