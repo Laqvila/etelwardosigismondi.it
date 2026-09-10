@@ -52,7 +52,8 @@ funziona, ma alla rigenerazione successiva le modifiche vanno riportate nei sorg
 ## Come si aggiorna il sito
 
 Con i sorgenti: `python _source/gen_site.py` genera le pagine, `python _source/check.py`
-le verifica (link, titoli, immagini, contrasti), `python _source/pubblica.py --prod`
+le verifica (link, titoli, immagini, contrasti), `python _source/audit_testata.py` misura testata e
+margini in cinque lingue e trenta larghezze (serve Chrome), `python _source/pubblica.py --prod`
 le copia in questo repository; poi `git commit` e `git push`. GitHub Pages
 pubblica in circa un minuto.
 

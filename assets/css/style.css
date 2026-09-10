@@ -132,6 +132,15 @@ button{ font:inherit; }
 h1, h2, h3, h4{ margin:0 0 .5em; color:var(--ink); font-family:var(--display); text-wrap:balance; }
 h1{ font-size:var(--t-h1); font-weight:800; line-height:1.02; letter-spacing:-.02em; text-transform:uppercase; }
 h2{ font-size:var(--t-h2); font-weight:800; line-height:1.08; letter-spacing:-.015em; text-transform:uppercase; }
+/* Parole lunghe (Verkehrsverbindungen, interregionale, Infraestructuras) mai fuori dal
+   riquadro. overflow-wrap spezza solo la parola che da sola non entra nella riga; la
+   sillabazione la spezza nel punto giusto, e solo parole di almeno 12 lettere. In italiano
+   solo sui telefoni, per non toccare i titoli approvati su desktop; nelle altre lingue
+   ovunque, perche' il tedesco sforava anche a 1280px. Misurato con audit_testata.py. */
+body{ overflow-wrap:break-word; }
+html:not([lang="it"]) :is(h1, h2, h3), .tag{ hyphens:auto; -webkit-hyphens:auto; hyphenate-limit-chars:12 5 4; }
+@media (max-width:640px){ :is(h1, h2, h3){ hyphens:auto; -webkit-hyphens:auto; hyphenate-limit-chars:12 5 4; } }
+.section-bridge > *{ min-width:0; }
 h3{ font-size:var(--t-h3); font-weight:700; line-height:1.25; letter-spacing:-.005em; }
 h4{ font-family:var(--sans); font-size:var(--t-m); font-weight:700; line-height:1.4; }
 p{ margin:0 0 1em; text-wrap:pretty; }
@@ -151,9 +160,12 @@ main:focus-visible{ outline:2px solid var(--blu); outline-offset:-2px; }
 
 /* ---------- Layout ---------- */
 .container{ max-width:var(--maxw); margin:0 auto; padding:0 var(--pad); }
-.section{ padding:var(--sec-y) 0; }
-.section-tight{ padding:calc(var(--sec-y) * .7) 0; }
-.section-airy{ padding:calc(var(--sec-y) * 1.3) 0; }
+/* padding-block, MAI "padding: X 0": queste classi stanno sullo stesso elemento
+   di .container e la scorciatoia ne azzera il padding laterale (testo a filo
+   dello schermo sui telefoni). check.py lo blocca. */
+.section{ padding-block:var(--sec-y); }
+.section-tight{ padding-block:calc(var(--sec-y) * .7); }
+.section-airy{ padding-block:calc(var(--sec-y) * 1.3); }
 .band{ background:var(--paper-2); background-image:var(--grad-band); }
 .band-dark{ background:var(--navy); background-image:var(--grad-blu); color:var(--on-dark); }
 .band-dark h1, .band-dark h2, .band-dark h3{ color:#fff; }
@@ -231,8 +243,8 @@ main:focus-visible{ outline:2px solid var(--blu); outline-offset:-2px; }
 .wordmark .sub{ display:none; }
 .site-nav{ margin-left:auto; display:flex; align-items:center; gap:var(--s-2); }
 .nav-links{ display:flex; align-items:center; gap:2px; }
-.nav-links a{ position:relative; display:inline-flex; align-items:center; min-height:44px; padding:0 12px; font-family:var(--display); font-size:.8125rem; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--navy); text-decoration:none; white-space:nowrap; }
-.nav-links a::after{ content:""; position:absolute; left:12px; right:12px; bottom:8px; height:3px; background:var(--oro); border-radius:2px; transform:scaleX(0); transform-origin:left; transition:transform .25s var(--ease); }
+.nav-links a{ position:relative; display:inline-flex; align-items:center; min-height:44px; padding:0 8px; font-family:var(--display); font-size:.8125rem; font-weight:700; letter-spacing:.04em; text-transform:uppercase; color:var(--navy); text-decoration:none; white-space:nowrap; }
+.nav-links a::after{ content:""; position:absolute; left:8px; right:8px; bottom:8px; height:3px; background:var(--oro); border-radius:2px; transform:scaleX(0); transform-origin:left; transition:transform .25s var(--ease); }
 .nav-links a:hover::after, .nav-links a[aria-current="page"]::after{ transform:scaleX(1); }
 .nav-links a[aria-current="page"]{ color:var(--blu); }
 .nav-links .btn-cta{ display:none; }
@@ -241,6 +253,7 @@ main:focus-visible{ outline:2px solid var(--blu); outline-offset:-2px; }
 .lang-switch a{ display:inline-flex; align-items:center; justify-content:center; min-width:34px; min-height:32px; padding:0 7px; border-radius:var(--r-xs); font-family:var(--display); font-size:.75rem; font-weight:700; color:var(--muted); }
 .lang-switch a:hover{ background:var(--paper-2); color:var(--navy); }
 .lang-switch a.active{ background:var(--navy); color:#fff; }
+.nav-actions .lang-switch a{ min-width:28px; padding:0 4px; }   /* 28x32: sopra i 24x24 di WCAG 2.5.8 */
 .lang-switch.in-menu{ display:none; }
 .icon-btn{ display:inline-flex; align-items:center; justify-content:center; gap:8px; min-width:44px; min-height:44px; padding:0 12px; border-radius:var(--r-sm); border:1px solid var(--rule-strong); background:var(--surface); color:var(--navy); cursor:pointer; text-decoration:none; }
 .icon-btn:hover{ border-color:var(--blu); color:var(--blu); }
@@ -253,9 +266,9 @@ main:focus-visible{ outline:2px solid var(--blu); outline-offset:-2px; }
 .nav-toggle[aria-expanded="true"] .bars span:nth-child(1){ transform:translateY(6px) rotate(45deg); }
 .nav-toggle[aria-expanded="true"] .bars span:nth-child(2){ opacity:0; }
 .nav-toggle[aria-expanded="true"] .bars span:nth-child(3){ transform:translateY(-6px) rotate(-45deg); }
-@media (max-width:1100px){
+@media (max-width:1349px){
   .nav-toggle{ display:inline-flex; }
-  .nav-links{ display:none; position:absolute; left:0; right:0; top:100%; flex-direction:column; align-items:stretch; padding:var(--s-3) var(--pad) var(--s-5); background:var(--surface); box-shadow:var(--shadow-pop); border-top:4px solid var(--oro); }
+  .nav-links{ display:none; position:absolute; left:0; right:0; top:100%; flex-direction:column; align-items:stretch; padding:var(--s-3) max(var(--pad), calc((100% - var(--maxw)) / 2 + var(--pad))) var(--s-5); background:var(--surface); box-shadow:var(--shadow-pop); border-top:4px solid var(--oro); }
   .nav-links.open{ display:flex; }
   .nav-links a{ min-height:52px; padding:0 4px; border-bottom:1px solid var(--hair); font-size:var(--t-m); letter-spacing:.04em; }
   .nav-links a::after{ display:none; }
@@ -274,7 +287,17 @@ main:focus-visible{ outline:2px solid var(--blu); outline-offset:-2px; }
   .icon-btn{ padding:0; min-width:44px; }
   .nav-actions .btn-cta{ display:none; }
 }
-@media (max-width:1100px) and (min-width:641px){ .nav-actions .btn-cta{ display:inline-flex; } }
+@media (max-width:1349px) and (min-width:641px){ .nav-actions .btn-cta{ display:inline-flex; } }
+/* Testata completa da 1350px. Misurata in cinque lingue con audit_testata.py:
+   voci, lingue, ricerca e pulsante su due righe chiedono fino a ~1310px
+   (spagnolo) e il contenitore di 1240px non bastava: il pulsante usciva dallo
+   schermo. Qui la barra si allarga a 1340px e il pulsante non si comprime.
+   Cambiando le voci del menu o le traduzioni, rilanciare audit_testata.py. */
+@media (min-width:1350px){
+  .site-header .header-bar{ max-width:1340px; }
+  .nav-actions .btn-cta{ flex-shrink:0; padding-inline:16px; text-align:center; }
+  .nav-actions .btn-cta .cta-t > span{ display:block; }
+}
 @media (max-width:359px){ .wordmark .logo{ height:34px; } }
 
 /* ---------- Ricerca ---------- */
@@ -299,6 +322,7 @@ main:focus-visible{ outline:2px solid var(--blu); outline-offset:-2px; }
    (i blocchi del nome), riusato in piccolo su ogni card. */
 .tag{ display:inline-flex; align-items:center; min-height:26px; padding:3px 10px; border-radius:var(--r-xs); background:var(--oro); color:var(--navy); font-family:var(--display); font-size:var(--t-xs); font-weight:800; letter-spacing:.06em; text-transform:uppercase; line-height:1.2; }
 .tag.on-photo{ box-shadow:0 2px 8px rgba(0,0,0,.25); }
+.tag{ max-width:100%; overflow-wrap:anywhere; }   /* "INFRAESTRUCTURAS" (189px) nella colonna di 164px delle righe stampa a 320px */
 .tag.abruzzo, .tag.green{ background:var(--blu); color:#fff; }
 .tag.memoria{ background:var(--navy); color:#fff; }
 .status{ display:inline-flex; align-items:center; gap:8px; font-size:var(--t-s); font-weight:600; color:var(--ink-2); }
@@ -490,7 +514,7 @@ main:focus-visible{ outline:2px solid var(--blu); outline-offset:-2px; }
 @media (max-width:559px){ .kpi{ padding:calc(var(--s-4) + 5px) var(--s-3) var(--s-4); } }
 
 /* ---------- Dossier interno ---------- */
-.dossier-head{ display:grid; gap:var(--s-5); }
+.dossier-head{ display:grid; grid-template-columns:minmax(0, 1fr); gap:var(--s-5); }
 @media (min-width:900px){ .dossier-head{ grid-template-columns:minmax(0, 2fr) minmax(0, 1fr); align-items:start; } }
 .status-box{ position:relative; overflow:hidden; background:var(--surface); border:1px solid var(--rule); border-radius:var(--r); padding:var(--s-5) var(--s-5) var(--s-5) calc(var(--s-5) + 5px); display:grid; gap:var(--s-2); min-width:0; overflow-wrap:break-word; box-shadow:var(--shadow-card); }
 .status-box::before{ content:""; position:absolute; left:0; top:0; bottom:0; width:5px; background:var(--blu); }
@@ -620,6 +644,7 @@ main:focus-visible{ outline:2px solid var(--blu); outline-offset:-2px; }
    precedente aveva scritto .title e .src, che nel markup non esistono, quindi
    da tre versioni le righe della rassegna erano di fatto senza stile. */
 .press-row time{ font-family:var(--display); font-size:var(--t-xs); font-weight:700; color:var(--blu); text-transform:uppercase; letter-spacing:.04em; white-space:nowrap; }
+@media (max-width:719px){ .press-row time{ white-space:normal; } }   /* "25 de septiembre de 2025" non entra nella colonna accanto alla foto a 320-360px */
 .press-row .t{ font-weight:600; color:var(--navy); line-height:1.42; }
 .press-row:hover .t{ color:var(--blu); }
 .press-row .r{ display:inline-flex; flex-wrap:wrap; align-items:center; gap:8px; }
@@ -709,7 +734,7 @@ main:focus-visible{ outline:2px solid var(--blu); outline-offset:-2px; }
 .latest-press a:hover > span:not(.visually-hidden){ color:var(--blu); }
 
 /* ---------- 404 / ricerca ---------- */
-.empty{ text-align:center; padding:var(--s-8) 0; }
+.empty{ text-align:center; padding-block:var(--s-8); }
 .empty p{ margin-left:auto; margin-right:auto; }
 
 /* ---------- Telefono ---------- */
