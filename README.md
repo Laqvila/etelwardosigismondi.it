@@ -42,6 +42,11 @@ funziona, ma alla rigenerazione successiva le modifiche vanno riportate nei sorg
    - Workers: `etelwardosigismondi-segnala`, rotta `etelwardosigismondi.it/api/*`.
 3. **Registrar** — il dominio è registrato su **Aruba**; i nameserver puntano a
    Cloudflare. Il rinnovo annuale del dominio resta su Aruba.
+4. **Google Search Console** — proprietà `https://etelwardosigismondi.it/` (account
+   Google di Mirko Rocci), verificata con il file `googleddd643da45a84de0.html` nella
+   radice del sito: **non va rimosso**. Sitemap inviata (`/sitemap.xml`). Per passare la
+   proprietà allo staff: Impostazioni → Utenti e autorizzazioni → aggiungere il loro
+   account come Proprietario.
 
 ## Come si aggiorna il sito
 
