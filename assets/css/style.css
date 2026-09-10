@@ -106,7 +106,7 @@
   --s-1: 4px;  --s-2: 8px;  --s-3: 12px; --s-4: 16px; --s-5: 24px;
   --s-6: 32px; --s-7: 48px; --s-8: 64px; --s-9: 96px; --s-10: 128px;
   --pad: clamp(18px, 5vw, 32px);
-  --sec-y: 56px;
+  --sec-y: 44px;   /* v31: era 56 */
   --maxw: 1240px;
   --measure: 64ch;
 
@@ -119,7 +119,7 @@
   --shadow-card: 0 1px 2px rgba(10,42,84,.06), 0 10px 24px -12px rgba(10,42,84,.22);
   --shadow-pop:  0 2px 6px rgba(10,42,84,.08), 0 22px 44px -18px rgba(10,42,84,.34);
 }
-@media (min-width:900px){ :root{ --sec-y: 104px; } }
+@media (min-width:900px){ :root{ --sec-y: 64px; } }   /* v31: era 104: fra due sezioni si sommava a 208px */
 @media (max-width:640px){ :root{ --t-xs:.875rem; --t-s:1rem; } }
 
 /* ---------- Reset ---------- */
@@ -459,7 +459,16 @@ main:focus-visible{ outline:2px solid var(--blu); outline-offset:-2px; }
 .now-card h2{ color:#fff; font-size:clamp(1.4rem, 1.1rem + 1.3vw, 2rem); margin:0 0 var(--s-2); text-transform:none; letter-spacing:-.01em; }
 .now-card p{ color:var(--on-dark-2); margin:0; }
 .now-card .btn{ align-self:flex-start; margin-top:var(--s-4); }
-.mandate{ background:var(--surface); border:1px solid var(--rule); border-radius:var(--r); box-shadow:var(--shadow-card); padding:var(--s-5); display:grid; gap:var(--s-4); align-content:start; }
+.mandate{ background:var(--surface); border:1px solid var(--rule); border-radius:var(--r); box-shadow:var(--shadow-card); padding:var(--s-5); display:flex; flex-direction:column; gap:var(--s-4); }
+/* Box "Stato del mandato" (v29): incarichi, atti e numeri d'Aula riempiono lo
+   spazio accanto alla card in evidenza; i rimandi stanno sul fondo del box. */
+.mandate .roles-mini{ list-style:none; margin:0; padding:0; display:grid; gap:8px; }
+.mandate .roles-mini li{ max-width:none; display:grid; gap:1px; font-weight:700; color:var(--navy); }
+.mandate .roles-mini .small{ font-weight:400; color:var(--ink-3); }
+.mandate .roles-mini .titolo-atto{ font-weight:600; color:var(--ink-2); }
+.mandate .roles-mini li > span:first-child{ display:block; }
+.mandate .box-foot{ margin:auto 0 0; padding-top:var(--s-3); font-size:var(--t-s); font-weight:600; }
+.mandate .box-foot a{ display:inline-block; min-height:24px; padding:2px 0; }
 .mandate h2{ font-size:var(--t-xs); font-family:var(--display); letter-spacing:.12em; text-transform:uppercase; color:var(--blu); margin:0; font-weight:800; }
 .mandate dl{ margin:0; display:grid; gap:var(--s-3); }
 .mandate dl > div{ padding-bottom:var(--s-3); border-bottom:1px solid var(--hair); }
@@ -716,10 +725,10 @@ main:focus-visible{ outline:2px solid var(--blu); outline-offset:-2px; }
 /* ==========================================================================
    MOTION: le cose entrano dal basso, i filetti si tirano. Niente altro.
    ========================================================================== */
-.js .rv{ opacity:0; transform:translateY(16px); transition:opacity .55s var(--ease), transform .55s var(--ease); }
-.js .rv.in{ opacity:1; transform:none; }
+.js .rv{ opacity:0; transition:opacity .45s var(--ease); }   /* v31: niente translateY, solo dissolvenza */
+.js .rv.in{ opacity:1; }
 .js .rv.d1{ transition-delay:.07s; } .js .rv.d2{ transition-delay:.14s; } .js .rv.d3{ transition-delay:.21s; }
-.js .rv.from-left, .js .rv.from-right, .js .rv.scale-in{ transform:translateY(16px); }
+
 .js .hero-photo.rv, .js .hero-copy.rv{ opacity:1; transform:none; }
 
 .back-top{ position:fixed; right:16px; bottom:16px; width:50px; height:50px; border-radius:var(--r-sm); z-index:150; background:var(--oro); border:0; color:var(--navy); display:inline-flex; align-items:center; justify-content:center; cursor:pointer; opacity:0; visibility:hidden; pointer-events:none; transform:translateY(8px); transition:opacity .2s, transform .2s var(--ease), visibility 0s .2s, background .18s; box-shadow:var(--shadow-pop); }
@@ -764,3 +773,7 @@ main:focus-visible{ outline:2px solid var(--blu); outline-offset:-2px; }
 .form-status h3{ margin:0 0 6px; font-size:var(--t-l); }
 .form-status p{ margin:0; }
 .cf-turnstile{ min-height:65px; }
+
+/* Griglia dei comunicati (v30): ogni card riempie la propria cella, cosi' in
+   una riga i bordi inferiori e i "Leggi" stanno alla stessa altezza. */
+.tl-item > .media-card{ height:100%; }
