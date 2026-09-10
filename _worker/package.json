@@ -1,0 +1,14 @@
+{
+  "name": "etelwardosigismondi-segnala",
+  "private": true,
+  "description": "Worker Cloudflare: il modulo di segnalazione del sito diventa un'email alla casella istituzionale del Senatore.",
+  "scripts": {
+    "login": "wrangler login",
+    "deploy": "wrangler deploy",
+    "secret": "wrangler secret put TURNSTILE_SECRET",
+    "tail": "wrangler tail"
+  },
+  "devDependencies": {
+    "wrangler": "^4.130.0"
+  }
+}

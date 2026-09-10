@@ -1,0 +1,766 @@
+/* ==========================================================================
+   Etelwardo Sigismondi — Senatore della Repubblica · Abruzzo
+   Design system v19 — "Il banner". Riscritto da zero.
+
+   IL BRIEF NON E' PIU' UNA MIA INTERPRETAZIONE: E' IL SUO BANNER.
+   Tutto viene dal materiale ufficiale del Senatore (il banner con ritratto,
+   fascia tricolore e nome nei blocchi gialli), campionato pixel per pixel:
+     campo blu        #004781   (zone senza testo del banner)
+     blu medio        #015CA1   (le luci del campo)
+     giallo-oro       #FFB901   (i blocchi del nome: NON il giallo del partito)
+     tricolore        #46B054 / bianco / #910F1A  (solo nella fascia della foto
+                                                    e in un filo sottile)
+   Il carattere di stampa e' Montserrat, il piu' vicino al geometrico pesante
+   del banner; il testo corrente e' Inter. Entrambi serviti da qui.
+
+   COSA FA IL SITO ATTUALE DEL SENATORE, E CHE QUI E' RIFATTO MEGLIO:
+   banner in apertura; card delle notizie con badge della data sulla foto;
+   una sezione con immagine che RESTA FISSA mentre la pagina scorre; una fascia
+   colorata di invito; elenco del percorso con spunte. Sono le cose che gia'
+   riconosce come sue, eseguite a un altro livello.
+
+   ACCESSIBILITA' (WCAG 2.2 AA), come sempre in questo progetto: ogni coppia di
+   colore e' stata calcolata prima di essere scritta. Il giallo-oro regge il
+   testo scuro (navy 8,28:1, blu 5,50:1) e NON regge il bianco (1,72:1): sta
+   sempre e solo come blocco pieno con scritta scura, come nel banner. Sul
+   blu medio #015CA1 il giallo scende a 4,00: il blu medio e' quindi solo un
+   colore da luci e sfumature, mai un fondo sotto testo giallo.
+   ========================================================================== */
+
+@font-face{
+  font-family:"Montserrat"; font-style:normal; font-weight:100 900; font-display:swap;
+  src:url("../fonts/montserrat-var.woff2") format("woff2");
+}
+@font-face{
+  font-family:"Inter"; font-style:normal; font-weight:400 700; font-display:swap;
+  src:url("../fonts/inter-var.woff2") format("woff2");
+}
+
+:root{
+  /* ---- dal banner ---- */
+  --blu:        #023B82;   /* campo del banner: bianco 10,77:1, oro 5,55:1 */
+  --blu-2:      #014B8F;   /* luci: bianco 8,73:1. E' il punto PIU' CHIARO ammesso:
+                              oltre, l'oro degli occhielli scende sotto 4,5:1 */
+  --navy:       #012756;   /* il navy dei blocchi del nome: bianco 14,73:1, oro 7,60:1 */
+  --navy-deep:  #01142E;
+  --oro:        #EAB130;   /* l'oro del blocco SIGISMONDI: navy sopra 7,60:1 */
+  --oro-scuro:  #CE9820;   /* stato attivo dei bottoni oro: navy 5,71:1 */
+  --verde:      #46B054;
+  --rosso:      #910F1A;
+
+  /* ---- fondi chiari ---- */
+  --paper:      #FFFFFF;
+  --paper-2:    #F4F6F9;   /* fascia alternata */
+  --surface:    #FFFFFF;
+
+  /* ---- inchiostri ---- */
+  --ink:        var(--navy);  /* titoli */
+  --ink-2:      #24303F;      /* testo corrente: 13,4:1 su bianco */
+  --ink-3:      #5F6B78;      /* terziario: 5,44:1 / 5,02:1 su fascia */
+  --muted:      #4B5563;      /* secondario: 7,56:1 / 6,98:1 */
+  --link:       var(--blu);   /* 9,47:1 */
+
+  /* ---- filetti ---- */
+  --hair:       #E4E8EE;
+  --rule:       #DCE1E8;      /* definizione (decorativa) */
+  --rule-strong:#7C8896;      /* bordo dei controlli: 3,6 / 3,3 */
+
+  /* ---- su fondo scuro ---- */
+  --on-dark:    #FFFFFF;
+  --on-dark-2:  #C9D6E6;      /* 6,42:1 su blu */
+  --on-dark-3:  #A9BBD1;      /* 4,83:1 su blu, 7,28 su navy */
+  --divider-dark:#6F98C6;     /* 3:1+ su blu e navy */
+
+  /* ---- compatibilita' con i nomi usati dal markup generato ---- */
+  --brand-lt:   var(--blu-2);
+  --brand-deep: var(--navy);
+  --brand-bg:   #E6F0F9;
+  --porpora:    var(--rosso);
+  --porpora-deep:#6F0B13;
+  --porpora-bg: #FBEBEC;
+  --brass:      var(--oro);
+  --brass-ink:  var(--blu);   /* "occhiello": blu su chiaro, oro su scuro */
+  --brass-lt:   var(--oro);
+  --brass-bg:   #FFF3CC;
+
+  /* si ferma al blu del campo, NON al blu medio: sul blu medio l'oro degli
+     occhielli scende a 4,00:1, sul blu del campo sta a 5,50:1 */
+  --grad-blu:   linear-gradient(120deg, var(--navy-deep) 0%, var(--navy) 45%, var(--blu) 100%);
+  --grad-sotto: linear-gradient(180deg, #02397E 0%, var(--navy) 100%);
+  --grad-band:  linear-gradient(180deg, #FFFFFF 0%, var(--paper-2) 100%);
+  --tricolore:  linear-gradient(90deg, var(--verde) 0 33.4%, #FFFFFF 33.4% 66.7%, var(--rosso) 66.7% 100%);
+
+  --display: "Montserrat", "Segoe UI", Arial, sans-serif;
+  --serif:   var(--display);      /* i titoli del markup usano --serif */
+  --sans:    "Inter", "Segoe UI", Roboto, Arial, sans-serif;
+
+  /* ---- scala tipografica: 375px -> 1440px ---- */
+  --t-h1:     clamp(2.25rem, 1.55rem + 3vw, 4.25rem);       /* 36 -> 68 */
+  --t-h2:     clamp(1.75rem, 1.35rem + 1.7vw, 2.75rem);     /* 28 -> 44 */
+  --t-h3:     clamp(1.25rem, 1.16rem + 0.4vw, 1.5rem);      /* 20 -> 24 */
+  --t-card:   clamp(1.125rem, 1.06rem + 0.3vw, 1.3rem);     /* 18 -> 21 */
+  --t-lede:   clamp(1.125rem, 1.06rem + 0.3vw, 1.3rem);
+  --t-ledger: clamp(2.5rem, 2rem + 2vw, 3.75rem);           /* KPI: 40 -> 60 */
+  --t-xs: .8125rem; --t-s: .9375rem; --t-m: 1.0625rem; --t-l: 1.125rem;
+
+  --s-1: 4px;  --s-2: 8px;  --s-3: 12px; --s-4: 16px; --s-5: 24px;
+  --s-6: 32px; --s-7: 48px; --s-8: 64px; --s-9: 96px; --s-10: 128px;
+  --pad: clamp(18px, 5vw, 32px);
+  --sec-y: 56px;
+  --maxw: 1240px;
+  --measure: 64ch;
+
+  /* raggi: i blocchi del banner sono squadrati; le card e i bottoni prendono
+     un raggio deciso ma non gonfio */
+  --r:    14px;   /* card */
+  --r-sm: 8px;    /* bottoni, campi */
+  --r-xs: 4px;    /* etichette a blocco, come i blocchi del nome */
+  --ease: cubic-bezier(.2,.7,.3,1);
+  --shadow-card: 0 1px 2px rgba(10,42,84,.06), 0 10px 24px -12px rgba(10,42,84,.22);
+  --shadow-pop:  0 2px 6px rgba(10,42,84,.08), 0 22px 44px -18px rgba(10,42,84,.34);
+}
+@media (min-width:900px){ :root{ --sec-y: 104px; } }
+@media (max-width:640px){ :root{ --t-xs:.875rem; --t-s:1rem; } }
+
+/* ---------- Reset ---------- */
+*, *::before, *::after{ box-sizing:border-box; }
+html{ scroll-behavior:smooth; scroll-padding-top:84px; -webkit-text-size-adjust:100%; background:var(--paper); }
+body{ margin:0; background:var(--paper); color:var(--ink-2); font-family:var(--sans); font-size:var(--t-m); line-height:1.65; -webkit-font-smoothing:antialiased; overflow-x:clip; }
+img, svg, video{ max-width:100%; height:auto; display:block; }
+a{ color:var(--link); text-decoration:none; }
+button{ font:inherit; }
+h1, h2, h3, h4{ margin:0 0 .5em; color:var(--ink); font-family:var(--display); text-wrap:balance; }
+h1{ font-size:var(--t-h1); font-weight:800; line-height:1.02; letter-spacing:-.02em; text-transform:uppercase; }
+h2{ font-size:var(--t-h2); font-weight:800; line-height:1.08; letter-spacing:-.015em; text-transform:uppercase; }
+h3{ font-size:var(--t-h3); font-weight:700; line-height:1.25; letter-spacing:-.005em; }
+h4{ font-family:var(--sans); font-size:var(--t-m); font-weight:700; line-height:1.4; }
+p{ margin:0 0 1em; text-wrap:pretty; }
+p, li{ max-width:var(--measure); }
+strong{ font-weight:700; }
+.num, time, .kpi-value{ font-variant-numeric:tabular-nums; }
+hr{ border:0; border-top:1px solid var(--rule); margin:var(--s-6) 0; }
+::selection{ background:var(--oro); color:var(--navy); }
+
+/* ---------- Focus ---------- */
+:focus-visible{ outline:3px solid var(--oro); outline-offset:3px; }
+@media (forced-colors:active){ :focus-visible{ outline:3px solid CanvasText; } }
+.skip-link{ position:absolute; left:var(--s-4); top:-80px; z-index:400; background:var(--navy); color:#fff; font-weight:700; padding:12px 18px; border-radius:0 0 var(--r-sm) var(--r-sm); transition:top .15s var(--ease); }
+.skip-link:focus{ top:0; }
+main:focus{ outline:none; }
+main:focus-visible{ outline:2px solid var(--blu); outline-offset:-2px; }
+
+/* ---------- Layout ---------- */
+.container{ max-width:var(--maxw); margin:0 auto; padding:0 var(--pad); }
+.section{ padding:var(--sec-y) 0; }
+.section-tight{ padding:calc(var(--sec-y) * .7) 0; }
+.section-airy{ padding:calc(var(--sec-y) * 1.3) 0; }
+.band{ background:var(--paper-2); background-image:var(--grad-band); }
+.band-dark{ background:var(--navy); background-image:var(--grad-blu); color:var(--on-dark); }
+.band-dark h1, .band-dark h2, .band-dark h3{ color:#fff; }
+.band-dark a:not(.btn){ color:#fff; }
+.band-dark .section-head p, .band-dark .lede, .band-dark .small, .band-dark .muted{ color:var(--on-dark-2); }
+.band-azzurra{ background:var(--blu); color:#fff; }
+.band-giallo{ background:var(--oro); color:var(--navy); }
+
+/* Testa di sezione: occhiello con trattino oro, titolo maiuscolo, riga oro sotto */
+.section-head{ position:relative; max-width:780px; margin-bottom:var(--s-6); }
+@media (min-width:900px){ .section-head{ margin-bottom:var(--s-7); } }
+.section-head h2::after, .page-head h1::after{ content:""; display:block; width:72px; height:5px; background:var(--oro); margin-top:.45em; border-radius:2px; }
+.section-head p{ color:var(--muted); font-size:var(--t-l); }
+.section-bridge{ display:flex; flex-wrap:wrap; align-items:flex-end; justify-content:space-between; gap:var(--s-4); margin-bottom:var(--s-6); }
+.section-bridge .section-head{ margin-bottom:0; }
+
+.eyebrow{ display:inline-flex; align-items:center; gap:10px; margin:0 0 var(--s-3); font-family:var(--display); font-size:var(--t-xs); font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--blu); flex-wrap:wrap; max-width:100%; line-height:1.35; }
+.eyebrow::before{ content:""; width:28px; height:4px; background:var(--oro); border-radius:2px; flex-shrink:0; }
+.eyebrow.on-dark{ color:var(--oro); }
+.eyebrow.green{ color:var(--blu); }
+.lede{ font-size:var(--t-lede); color:var(--muted); line-height:1.55; max-width:60ch; }
+.small{ font-size:var(--t-s); color:var(--muted); }
+.muted{ color:var(--muted); }
+.grid-2, .grid-3, .grid-4{ display:grid; gap:var(--s-5); grid-template-columns:1fr; }
+@media (min-width:700px){ .grid-2, .grid-3, .grid-4{ grid-template-columns:repeat(2, minmax(0,1fr)); } }
+@media (min-width:1000px){ .grid-3{ grid-template-columns:repeat(3, minmax(0,1fr)); } .grid-4{ grid-template-columns:repeat(4, minmax(0,1fr)); } }
+.narrow{ max-width:820px; }
+.prose-wrap{ max-width:var(--measure); }
+.text-center{ text-align:center; }
+.mt-4{ margin-top:var(--s-4); } .mt-6{ margin-top:var(--s-6); } .mt-7{ margin-top:var(--s-7); }
+.mb-0{ margin-bottom:0; }
+.visually-hidden{ position:absolute !important; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); clip-path:inset(50%); white-space:nowrap; }
+
+/* ---------- Bottoni ---------- */
+.btn{
+  position:relative; display:inline-flex; align-items:center; justify-content:center; gap:10px; min-height:50px; padding:13px 26px;
+  border-radius:var(--r-sm); border:2px solid transparent; font-family:var(--display); font-weight:700; font-size:var(--t-s);
+  letter-spacing:.02em; text-transform:uppercase; line-height:1.15; text-decoration:none; cursor:pointer;
+  transition:background .18s var(--ease), color .18s var(--ease), border-color .18s var(--ease), transform .12s var(--ease), box-shadow .18s var(--ease);
+}
+.btn .arrow{ transition:transform .28s var(--ease); font-family:var(--sans); }
+.btn:hover .arrow{ transform:translateX(4px); }
+.btn:active{ transform:translateY(1px); }
+/* l'azione primaria e' l'ORO del banner con scritta navy: 8,28:1 */
+.btn-primary{ background:var(--oro); color:var(--navy); border-color:var(--oro); box-shadow:0 6px 16px -8px rgba(255,185,1,.7); }
+.btn-primary:hover{ background:var(--oro-scuro); border-color:var(--oro-scuro); color:var(--navy); }
+.btn-secondary{ background:transparent; color:var(--blu); border-color:var(--blu); }
+.btn-secondary:hover{ background:var(--blu); color:#fff; }
+.btn-navy{ background:var(--navy); color:#fff; border-color:var(--navy); }
+.btn-navy:hover{ background:var(--blu); border-color:var(--blu); color:#fff; }
+.btn-ghost{ background:transparent; color:var(--blu); padding:8px 2px; border-radius:0; min-height:44px; border:0; }
+.btn-ghost::after{ content:""; position:absolute; left:2px; right:calc(100% - 2px); bottom:6px; height:3px; background:var(--oro); transition:right .25s var(--ease); }
+.btn-ghost:hover::after{ right:2px; }
+.btn-sm{ min-height:42px; padding:9px 18px; font-size:var(--t-xs); }
+/* dentro i fondi scuri */
+.band-dark .btn-secondary, .hero .btn-secondary, .fissa .btn-secondary, .now-card .btn-secondary{ color:#fff; border-color:#fff; }
+.band-dark .btn-secondary:hover, .hero .btn-secondary:hover, .fissa .btn-secondary:hover, .now-card .btn-secondary:hover{ background:#fff; color:var(--navy); }
+.underline-fx{ text-decoration:underline; text-decoration-color:var(--rule-strong); text-decoration-thickness:1px; text-underline-offset:.18em; transition:text-decoration-color .2s var(--ease); }
+.underline-fx:hover, .underline-fx:focus-visible{ text-decoration-color:var(--blu); text-decoration-thickness:2px; }
+
+/* ---------- Barra di anteprima ---------- */
+.preview-banner{ background:var(--navy-deep); color:var(--on-dark-2); font-size:var(--t-xs); text-align:center; padding:9px var(--s-4); }
+.preview-banner strong{ font-weight:700; letter-spacing:.07em; text-transform:uppercase; margin-right:6px; color:var(--oro); }
+@media (max-width:640px){ .preview-banner .pv-detail{ display:none; } }
+
+/* ---------- Header ---------- */
+.site-header{ position:sticky; top:0; z-index:200; background:var(--surface); box-shadow:0 1px 0 var(--rule); }
+/* filo ORO sotto la barra: il tricolore a tutta larghezza su fondo bianco
+   perdeva il segmento centrale e restavano due barre sconnesse. Il tricolore
+   sta sul pie' di pagina, dove il navy fa vedere tutti e tre i colori. */
+.site-header::after{ content:""; display:block; height:4px; background:var(--oro); }
+.header-bar{ display:flex; align-items:center; gap:var(--s-4); height:78px; }
+.wordmark{ display:inline-flex; align-items:center; text-decoration:none; color:var(--ink); flex:0 0 auto; min-width:0; }
+.wordmark .logo{ height:48px; width:auto; }
+.wordmark .sub{ display:none; }
+.site-nav{ margin-left:auto; display:flex; align-items:center; gap:var(--s-2); }
+.nav-links{ display:flex; align-items:center; gap:2px; }
+.nav-links a{ position:relative; display:inline-flex; align-items:center; min-height:44px; padding:0 12px; font-family:var(--display); font-size:.8125rem; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--navy); text-decoration:none; white-space:nowrap; }
+.nav-links a::after{ content:""; position:absolute; left:12px; right:12px; bottom:8px; height:3px; background:var(--oro); border-radius:2px; transform:scaleX(0); transform-origin:left; transition:transform .25s var(--ease); }
+.nav-links a:hover::after, .nav-links a[aria-current="page"]::after{ transform:scaleX(1); }
+.nav-links a[aria-current="page"]{ color:var(--blu); }
+.nav-links .btn-cta{ display:none; }
+.nav-actions{ display:flex; align-items:center; gap:var(--s-2); }
+.lang-switch{ display:flex; gap:2px; }
+.lang-switch a{ display:inline-flex; align-items:center; justify-content:center; min-width:34px; min-height:32px; padding:0 7px; border-radius:var(--r-xs); font-family:var(--display); font-size:.75rem; font-weight:700; color:var(--muted); }
+.lang-switch a:hover{ background:var(--paper-2); color:var(--navy); }
+.lang-switch a.active{ background:var(--navy); color:#fff; }
+.lang-switch.in-menu{ display:none; }
+.icon-btn{ display:inline-flex; align-items:center; justify-content:center; gap:8px; min-width:44px; min-height:44px; padding:0 12px; border-radius:var(--r-sm); border:1px solid var(--rule-strong); background:var(--surface); color:var(--navy); cursor:pointer; text-decoration:none; }
+.icon-btn:hover{ border-color:var(--blu); color:var(--blu); }
+.icon-btn svg{ width:20px; height:20px; stroke:currentColor; fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
+.icon-btn .label{ display:none; }
+.nav-toggle{ display:none; position:relative; }
+.nav-toggle .bars{ position:relative; width:20px; height:14px; display:block; }
+.nav-toggle .bars span{ position:absolute; left:0; width:100%; height:2px; background:currentColor; border-radius:2px; transition:transform .2s var(--ease), opacity .15s; }
+.nav-toggle .bars span:nth-child(1){ top:0; } .nav-toggle .bars span:nth-child(2){ top:6px; } .nav-toggle .bars span:nth-child(3){ top:12px; }
+.nav-toggle[aria-expanded="true"] .bars span:nth-child(1){ transform:translateY(6px) rotate(45deg); }
+.nav-toggle[aria-expanded="true"] .bars span:nth-child(2){ opacity:0; }
+.nav-toggle[aria-expanded="true"] .bars span:nth-child(3){ transform:translateY(-6px) rotate(-45deg); }
+@media (max-width:1100px){
+  .nav-toggle{ display:inline-flex; }
+  .nav-links{ display:none; position:absolute; left:0; right:0; top:100%; flex-direction:column; align-items:stretch; padding:var(--s-3) var(--pad) var(--s-5); background:var(--surface); box-shadow:var(--shadow-pop); border-top:4px solid var(--oro); }
+  .nav-links.open{ display:flex; }
+  .nav-links a{ min-height:52px; padding:0 4px; border-bottom:1px solid var(--hair); font-size:var(--t-m); letter-spacing:.04em; }
+  .nav-links a::after{ display:none; }
+  .nav-links a[aria-current="page"]{ box-shadow:inset 4px 0 0 var(--oro); padding-left:12px; }
+  .nav-links .btn-cta{ display:inline-flex; margin-top:var(--s-4); border:0; background:var(--oro); color:var(--navy); font-size:var(--t-s); }
+  .nav-links .lang-switch.in-menu{ display:flex; margin-top:var(--s-4); gap:6px; }
+  .lang-switch.in-menu a{ border:1px solid var(--rule-strong); }
+  .lang-switch.in-menu a.active{ border-color:var(--navy); }
+  .nav-actions .lang-switch{ display:none; }
+  html:not(.js) .nav-links{ display:flex; position:static; box-shadow:none; }
+  html:not(.js) .nav-toggle{ display:none; }
+}
+@media (max-width:640px){
+  .header-bar{ height:66px; gap:var(--s-2); }
+  .wordmark .logo{ height:40px; }
+  .icon-btn{ padding:0; min-width:44px; }
+  .nav-actions .btn-cta{ display:none; }
+}
+@media (max-width:1100px) and (min-width:641px){ .nav-actions .btn-cta{ display:inline-flex; } }
+@media (max-width:359px){ .wordmark .logo{ height:34px; } }
+
+/* ---------- Ricerca ---------- */
+.search-dialog{ border:0; border-radius:var(--r); padding:0; max-width:min(680px, calc(100vw - 32px)); width:100%; box-shadow:var(--shadow-pop); background:var(--surface); }
+.search-dialog::backdrop{ background:rgba(6,27,55,.6); }
+.search-inner{ padding:var(--s-5); }
+.search-row{ display:flex; gap:var(--s-2); }
+.search-row input{ flex:1; min-width:0; min-height:48px; padding:0 var(--s-4); font:inherit; border:1px solid var(--rule-strong); border-radius:var(--r-sm); color:var(--ink-2); background:var(--surface); }
+.search-status{ font-size:var(--t-s); color:var(--muted); margin:var(--s-3) 0 0; }
+.search-results{ list-style:none; margin:var(--s-3) 0 0; padding:0; max-height:50vh; overflow:auto; }
+.search-results a{ display:block; padding:12px 6px; color:var(--ink-2); border-radius:var(--r-xs); }
+.search-results a:hover{ background:var(--paper-2); }
+.search-results .kind{ font-family:var(--display); font-size:var(--t-xs); font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--blu); }
+.search-results .title{ display:block; font-weight:600; color:var(--navy); }
+.search-results .snip{ display:block; font-size:var(--t-s); color:var(--muted); }
+.search-page-form{ display:flex; flex-wrap:wrap; gap:var(--s-2); max-width:640px; }
+.search-page-form input{ flex:1 1 190px; min-width:0; min-height:50px; padding:0 var(--s-4); font:inherit; border:1px solid var(--rule-strong); border-radius:var(--r-sm); background:var(--surface); }
+.press-count{ font-size:var(--t-s); color:var(--muted); }
+
+/* ---------- Etichette e stati ----------
+   L'etichetta e' un BLOCCO ORO con scritta navy: e' il gesto del banner
+   (i blocchi del nome), riusato in piccolo su ogni card. */
+.tag{ display:inline-flex; align-items:center; min-height:26px; padding:3px 10px; border-radius:var(--r-xs); background:var(--oro); color:var(--navy); font-family:var(--display); font-size:var(--t-xs); font-weight:800; letter-spacing:.06em; text-transform:uppercase; line-height:1.2; }
+.tag.on-photo{ box-shadow:0 2px 8px rgba(0,0,0,.25); }
+.tag.abruzzo, .tag.green{ background:var(--blu); color:#fff; }
+.tag.memoria{ background:var(--navy); color:#fff; }
+.status{ display:inline-flex; align-items:center; gap:8px; font-size:var(--t-s); font-weight:600; color:var(--ink-2); }
+.status::before{ content:""; width:10px; height:10px; flex-shrink:0; background:var(--ink-3); border-radius:50%; }
+.status.in-corso::before{ background:var(--blu); }
+.status.in-esame::before{ background:linear-gradient(90deg, var(--oro-scuro) 50%, transparent 50%); border:2px solid var(--oro-scuro); }
+.status.concluso::before{ background:var(--navy); border-radius:2px; }
+.status.aggiornamento::before{ background:var(--rosso); border-radius:2px; transform:rotate(45deg); }
+.status.archiviato::before{ background:transparent; border:2px solid var(--rule-strong); }
+.band-dark .status, .now-card .status{ color:#fff; }
+.band-dark .status.in-corso::before, .now-card .status.in-corso::before{ background:var(--oro); }
+.meta-line{ display:inline-flex; flex-wrap:wrap; align-items:center; gap:6px 10px; font-size:var(--t-s); color:var(--muted); }
+.meta-line time{ color:var(--ink-2); font-weight:600; }
+.band-dark .meta-line, .now-card .meta-line{ color:var(--on-dark-2); }
+.band-dark .meta-line time, .now-card .meta-line time{ color:#fff; }
+.ext::after{ content:"↗"; display:inline-block; margin-left:.3em; font-size:.85em; }
+
+/* BADGE DELLA DATA sulla fotografia: giorno grande, mese sotto. E' l'elemento
+   che il Senatore ha gia' sul suo sito; qui e' un blocco navy con il giorno
+   in oro. E' aria-hidden: la data completa resta nel <time> del testo. */
+.date-badge{ position:absolute; left:14px; bottom:14px; z-index:2; display:grid; place-items:center; min-width:58px; padding:8px 10px 7px; background:var(--navy); color:#fff; border-radius:var(--r-xs); font-family:var(--display); line-height:1; box-shadow:0 4px 12px rgba(0,0,0,.3); }
+.date-badge b{ display:block; font-size:1.45rem; font-weight:800; color:var(--oro); }
+.date-badge i{ display:block; font-style:normal; font-size:.72rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; margin-top:3px; }
+
+/* ==========================================================================
+   CARD FOTOGRAFICHE
+   ========================================================================== */
+.media-card{ position:relative; display:flex; flex-direction:column; background:var(--surface); border:1px solid var(--rule); border-radius:var(--r); overflow:hidden; box-shadow:var(--shadow-card); transition:transform .28s var(--ease), box-shadow .28s var(--ease), border-color .2s var(--ease); }
+.media-card:hover, .media-card:focus-within{ transform:translateY(-4px); box-shadow:var(--shadow-pop); border-color:transparent; }
+.media-card .media{ position:relative; aspect-ratio:16/10; overflow:hidden; background:var(--navy); flex-shrink:0; }
+@media (min-width:700px){ .media-card .media{ aspect-ratio:4/3; } .media-card.featured .media{ aspect-ratio:16/9; } }
+.media-card .media img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:50% 32%; transition:transform .6s var(--ease); }
+.media-card:hover .media img, .media-card:focus-within .media img{ transform:scale(1.05); }
+.media-card .media .tag{ position:absolute; left:14px; top:14px; z-index:2; }
+.media-card .body{ padding:var(--s-5); display:flex; flex-direction:column; gap:var(--s-2); flex:1; }
+.media-card h3{ margin:0; font-size:var(--t-card); line-height:1.28; }
+.media-card h3 a{ color:var(--navy); }
+.media-card h3 a::after{ content:""; position:absolute; inset:0; z-index:1; }
+.media-card:hover h3 a, .media-card:focus-within h3 a{ color:var(--blu); }
+.media-card p{ margin:0; color:var(--muted); font-size:var(--t-m); }
+.media-card .foot{ margin-top:auto; padding-top:var(--s-3); border-top:1px solid var(--hair); display:flex; align-items:center; justify-content:space-between; gap:var(--s-3); flex-wrap:wrap; }
+.media-card .foot-end{ justify-content:flex-end; }
+.media-card .more{ position:relative; z-index:2; font-family:var(--display); font-size:var(--t-xs); font-weight:800; letter-spacing:.06em; text-transform:uppercase; color:var(--blu); display:inline-flex; gap:6px; align-items:center; }
+.media-card .more .arrow{ font-family:var(--sans); transition:transform .25s var(--ease); }
+.media-card:hover .more .arrow, .media-card:focus-within .more .arrow{ transform:translateX(4px); }
+.media-card .foot .underline-fx{ position:relative; z-index:2; }
+@media (min-width:1000px){
+  .media-card.featured, .tl-item.featured{ grid-column:span 2; }
+  .media-card.featured .body{ padding:var(--s-6); }
+  .media-card.featured h3{ font-size:clamp(1.4rem, 1.1rem + 1vw, 1.8rem); }
+}
+.media-card .media.no-photo{ display:flex; align-items:center; justify-content:center; background:var(--paper-2); }
+.media-card .media.no-photo .glyph{ width:34%; max-width:78px; color:var(--blu); opacity:.5; }
+
+/* Schede istituzionali (commissioni) */
+.role-card{ position:relative; overflow:hidden; background:var(--surface); border:1px solid var(--rule); border-radius:var(--r); padding:calc(var(--s-5) + 5px) var(--s-5) var(--s-5); display:grid; gap:var(--s-3); align-content:start; box-shadow:var(--shadow-card); transition:transform .26s var(--ease), box-shadow .26s var(--ease); }
+.role-card::before{ content:""; position:absolute; left:0; right:0; top:0; height:5px; background:var(--oro); }
+.role-card:hover, .role-card:focus-within{ transform:translateY(-4px); box-shadow:var(--shadow-pop); }
+.role-card .tag{ justify-self:start; }
+.role-card h3{ margin:0; font-size:var(--t-card); }
+.role-card h3 a{ display:inline-block; min-height:24px; padding:1px 0; color:var(--navy); text-decoration:underline; text-decoration-color:var(--rule-strong); text-underline-offset:.18em; }
+.role-card h3 a:hover{ color:var(--blu); text-decoration-color:var(--blu); }
+.role-card p{ margin:0; color:var(--muted); font-size:var(--t-m); }
+
+/* ---------- Griglia timeline / dossier ---------- */
+.filters{ display:flex; flex-wrap:wrap; gap:var(--s-2); margin-bottom:var(--s-4); }
+.filter{ display:inline-flex; align-items:center; min-height:44px; padding:0 16px; border-radius:var(--r-sm); border:2px solid var(--rule-strong); background:var(--surface); color:var(--navy); font-family:var(--display); font-size:var(--t-xs); font-weight:700; letter-spacing:.04em; text-transform:uppercase; cursor:pointer; transition:border-color .18s, color .18s, background .18s; }
+.filter:hover{ border-color:var(--blu); color:var(--blu); }
+.filter[aria-pressed="true"], .filter[aria-current="true"]{ background:var(--navy); border-color:var(--navy); color:#fff; }
+.filter-status{ font-size:var(--t-s); color:var(--muted); margin:0 0 var(--s-5); }
+.timeline{ list-style:none; margin:0; padding:0; display:grid; gap:var(--s-5); grid-template-columns:1fr; }
+@media (min-width:680px){ .timeline{ grid-template-columns:repeat(2, minmax(0,1fr)); } }
+@media (min-width:1000px){ .timeline{ grid-template-columns:repeat(3, minmax(0,1fr)); } }
+.timeline li{ max-width:none; }
+.timeline li[hidden]{ display:none; }
+.tl-card{ height:100%; }
+.tl-why{ margin:0; }
+.tl-why strong{ color:var(--navy); }
+.dossier-card .impact{ font-size:var(--t-m); }
+
+/* ==========================================================================
+   L'APERTURA E' IL BANNER UFFICIALE, INTERO E SENZA TAGLI.
+   L'immagine porta gia' tutto: il tondo di Fratelli d'Italia, il nome nei due
+   blocchi, le due righe di ruolo, la fascia tricolore. Non si ritaglia e non
+   si sovrappone nulla: si serve alla sua risoluzione nativa (1600x743) e la
+   misura la decide la larghezza della finestra.
+
+   STA DENTRO L'<h1>. Il testo alternativo E' il titolo della pagina, quindi
+   chi usa uno screen reader sente "intestazione 1: Etelwardo Sigismondi —
+   Senatore della Repubblica, Coordinatore Regionale...". Le scritte impresse
+   nel banner restano in italiano anche sulle pagine tradotte: per questo la
+   fascia sotto ripete il ruolo in HTML, che si traduce in tutte e cinque le
+   lingue ed e' selezionabile e cercabile.
+
+   IL FILETTO ORO chiude il banner. Il suo bordo inferiore taglia il ritratto
+   a meta' spalla; senza una linea netta quella giunzione si leggerebbe come
+   un errore di montaggio invece che come una scelta.
+   ========================================================================== */
+.hero{ background:var(--blu); }
+.hero-banner{ margin:0; display:block; line-height:0; background:var(--navy); }
+.hero-banner img{ width:100%; height:auto; }
+.hero-sotto{ background:var(--navy); background-image:var(--grad-sotto); border-top:6px solid var(--oro); color:#fff; }
+.hero-sotto-grid{ display:grid; gap:var(--s-5); padding-block:var(--s-6) var(--s-7); }
+@media (min-width:900px){
+  .hero-sotto-grid{ grid-template-columns:minmax(0,1fr) auto; gap:var(--s-8); align-items:end; padding-block:var(--s-7); }
+  .hero-actions{ flex-direction:column; align-items:stretch; min-width:264px; }
+}
+/* In italiano il ruolo e' gia' impresso nel banner, e sopra i 900px quelle
+   scritte sono grandi e leggibili: ripeterle sarebbe rumore. Sotto i 900px il
+   banner rimpicciolisce e quelle righe diventano illeggibili, quindi la
+   versione HTML torna. Sulle pagine tradotte resta sempre: le scritte nel
+   banner sono in italiano e non si traducono. */
+@media (min-width:900px){ .hero-role.solo-stretto{ display:none; } }
+.hero-role{ margin:0 0 var(--s-3); font-family:var(--display); font-weight:700; font-size:clamp(1.05rem, .95rem + .55vw, 1.4rem); line-height:1.3; letter-spacing:.01em; text-transform:uppercase; color:#fff; }
+.hero-mandate{ margin:0; font-size:var(--t-m); line-height:1.65; color:var(--on-dark-2); max-width:64ch; }
+.hero-actions{ display:flex; flex-wrap:wrap; gap:var(--s-3); }
+/* resti del markup precedente, se mai ricomparissero */
+.hero-watermark, .hero-figure, .hero-fdi, .hero-name, .hero-photo{ display:none; }
+
+/* ==========================================================================
+   FASCIA A SFONDO FISSO — l'immagine resta ferma mentre la pagina scorre.
+   Non background-attachment:fixed, che iOS ignora: un'immagine position:fixed
+   dentro una sezione con clip-path:inset(0), che la ritaglia alla sezione
+   pur lasciandola ancorata alla finestra. Funziona anche su Safari mobile.
+   Con prefers-reduced-motion l'immagine torna semplicemente assoluta.
+   Contrasto: l'immagine e' gia' al 50% di luminosita' nel file; il velo blu
+   sopra porta il punto piu' chiaro possibile a ~6,4:1 col bianco.
+   ========================================================================== */
+.fissa{ position:relative; overflow:clip; clip-path:inset(0); color:#fff; min-height:480px; display:grid; align-items:center; isolation:isolate; }
+.fissa-bg{ position:fixed; inset:0; z-index:-2; }
+.fissa-bg img{ width:100%; height:100%; object-fit:cover; object-position:72% 30%; }
+/* velo: pieno a sinistra sotto il testo, piu' leggero a destra dove affiora il
+   ritratto. Il punto piu' chiaro possibile — pixel bianco dell'immagine al 60%
+   di luminosita' sotto il velo piu' debole (.60) — da' 6,4:1 col bianco. */
+.fissa::before{ content:""; position:absolute; inset:0; z-index:-1; background:linear-gradient(90deg, rgba(2,59,130,.9) 0%, rgba(2,59,130,.74) 55%, rgba(2,59,130,.6) 100%); }
+.fissa-copy{ position:relative; padding-block:var(--s-9); }
+.fissa-copy h2{ color:#fff; max-width:18ch; font-size:clamp(1.9rem, 1.4rem + 2.2vw, 3.4rem); }
+.fissa-copy h2::after{ content:""; display:block; width:88px; height:6px; background:var(--oro); margin-top:.4em; border-radius:2px; }
+.fissa-copy p{ color:#fff; font-size:var(--t-l); max-width:52ch; }
+.fissa .eyebrow{ color:#fff; }
+.fissa-copy .btn{ margin-top:var(--s-3); }
+@media (prefers-reduced-motion:reduce){ .fissa-bg{ position:absolute; } }
+@media (max-width:640px){ .fissa{ min-height:0; } .fissa-copy{ padding-block:var(--s-8); } }
+
+/* ---------- Ora in evidenza + stato del mandato ---------- */
+.now-grid{ display:grid; gap:var(--s-5); }
+@media (min-width:900px){ .now-grid{ grid-template-columns:minmax(0, 3fr) minmax(0, 2fr); } }
+.now-card{ position:relative; overflow:hidden; border-radius:var(--r); display:flex; flex-direction:column; padding:var(--s-6); color:#fff; background:var(--navy); background-image:var(--grad-blu); box-shadow:var(--shadow-card); transition:transform .25s var(--ease), box-shadow .25s var(--ease); }
+.now-card:hover{ transform:translateY(-3px); box-shadow:var(--shadow-pop); }
+.now-card .media{ position:relative; z-index:0; overflow:hidden; aspect-ratio:16/9; margin:calc(-1 * var(--s-6)) calc(-1 * var(--s-6)) var(--s-5); border-bottom:5px solid var(--oro); }
+.now-card .media img{ width:100%; height:100%; object-fit:cover; object-position:50% 42%; transition:transform .6s var(--ease); }
+.now-card:hover .media img{ transform:scale(1.04); }
+.now-card .scrim{ display:none; }
+.now-card > *:not(.media){ position:relative; z-index:2; }
+@media (max-width:559px){ .now-card{ padding:var(--s-5); } .now-card .media{ margin:calc(-1 * var(--s-5)) calc(-1 * var(--s-5)) var(--s-4); } }
+.now-card .card-head{ display:flex; flex-wrap:wrap; align-items:center; gap:var(--s-2); margin-bottom:var(--s-3); }
+.now-card .eyebrow{ color:var(--oro); }
+.now-card h2{ color:#fff; font-size:clamp(1.4rem, 1.1rem + 1.3vw, 2rem); margin:0 0 var(--s-2); text-transform:none; letter-spacing:-.01em; }
+.now-card p{ color:var(--on-dark-2); margin:0; }
+.now-card .btn{ align-self:flex-start; margin-top:var(--s-4); }
+.mandate{ background:var(--surface); border:1px solid var(--rule); border-radius:var(--r); box-shadow:var(--shadow-card); padding:var(--s-5); display:grid; gap:var(--s-4); align-content:start; }
+.mandate h2{ font-size:var(--t-xs); font-family:var(--display); letter-spacing:.12em; text-transform:uppercase; color:var(--blu); margin:0; font-weight:800; }
+.mandate dl{ margin:0; display:grid; gap:var(--s-3); }
+.mandate dl > div{ padding-bottom:var(--s-3); border-bottom:1px solid var(--hair); }
+.mandate dt{ font-size:var(--t-xs); color:var(--ink-3); margin-bottom:2px; }
+.mandate dd{ margin:0; font-weight:700; color:var(--navy); }
+.mandate dd .small{ font-weight:400; }
+
+/* ---------- Numeri del mandato ---------- */
+.kpi-grid{ display:grid; gap:var(--s-4); grid-template-columns:repeat(2, minmax(0,1fr)); }
+@media (min-width:900px){ .kpi-grid{ grid-template-columns:repeat(4, minmax(0,1fr)); } }
+.kpi{ position:relative; overflow:hidden; background:var(--surface); border:1px solid var(--rule); border-radius:var(--r); padding:calc(var(--s-5) + 5px) var(--s-5) var(--s-5); display:grid; gap:var(--s-1); min-width:0; align-content:start; box-shadow:var(--shadow-card); }
+.kpi::before{ content:""; position:absolute; left:0; right:0; top:0; height:5px; background:var(--oro); }
+.kpi-value{ font-family:var(--display); font-size:var(--t-ledger); font-weight:800; line-height:1; color:var(--blu); letter-spacing:-.02em; }
+.kpi-label{ font-weight:700; color:var(--navy); font-size:var(--t-s); overflow-wrap:break-word; line-height:1.35; }
+.kpi-meta{ font-size:var(--t-xs); color:var(--ink-3); line-height:1.5; }
+.kpi-meta a, .mandate dd a{ display:inline-block; min-height:24px; padding:2px 0; }
+.kpi-ring, .kpi-ghost{ display:none; }
+.kpi-note{ font-size:var(--t-s); color:var(--muted); margin:var(--s-4) 0 0; max-width:none; }
+@media (max-width:559px){ .kpi{ padding:calc(var(--s-4) + 5px) var(--s-3) var(--s-4); } }
+
+/* ---------- Dossier interno ---------- */
+.dossier-head{ display:grid; gap:var(--s-5); }
+@media (min-width:900px){ .dossier-head{ grid-template-columns:minmax(0, 2fr) minmax(0, 1fr); align-items:start; } }
+.status-box{ position:relative; overflow:hidden; background:var(--surface); border:1px solid var(--rule); border-radius:var(--r); padding:var(--s-5) var(--s-5) var(--s-5) calc(var(--s-5) + 5px); display:grid; gap:var(--s-2); min-width:0; overflow-wrap:break-word; box-shadow:var(--shadow-card); }
+.status-box::before{ content:""; position:absolute; left:0; top:0; bottom:0; width:5px; background:var(--blu); }
+.status-box.concluso::before{ background:var(--navy); }
+.status-box.in-esame::before{ background:var(--oro); }
+.status-box.aggiornamento::before{ background:var(--rosso); }
+.status-box, .status-box p, .status-box .status{ color:var(--ink-2); }
+.status-box h2{ font-family:var(--display); font-size:var(--t-xs); letter-spacing:.12em; text-transform:uppercase; color:var(--blu); margin:0; font-weight:800; }
+.status-box h2::after{ display:none; }
+.status-box .status{ font-size:var(--t-m); }
+.status-box p{ margin:0; font-size:var(--t-m); }
+.why{ background:var(--brand-bg); border-radius:var(--r); padding:var(--s-5) var(--s-6) var(--s-5) calc(var(--s-6) + 5px); position:relative; overflow:hidden; }
+.why::after{ content:""; position:absolute; left:0; top:0; bottom:0; width:5px; background:var(--oro); }
+.why{ color:var(--ink-2); }
+.why h2{ font-size:var(--t-h3); color:var(--navy); margin-bottom:var(--s-2); text-transform:none; }
+.why h2::after{ display:none; }
+.why p{ margin:0; color:var(--ink-2); }
+.chrono{ list-style:none; margin:0; padding:0; position:relative; }
+.chrono::before{ content:""; position:absolute; left:6px; top:8px; bottom:8px; width:2px; background:var(--rule); }
+.chrono li{ position:relative; padding:0 0 var(--s-5) var(--s-6); max-width:none; }
+.chrono li::before{ content:""; position:absolute; left:0; top:7px; width:14px; height:14px; border-radius:50%; background:var(--oro); border:3px solid var(--surface); box-shadow:0 0 0 2px var(--blu); }
+.chrono time{ display:block; font-family:var(--display); font-size:var(--t-xs); font-weight:700; color:var(--blu); margin-bottom:2px; letter-spacing:.06em; text-transform:uppercase; }
+.chrono p{ margin:0; }
+.acts{ list-style:none; margin:0; padding:0; display:grid; gap:var(--s-3); }
+.acts li{ max-width:none; background:var(--surface); border:1px solid var(--rule); border-radius:var(--r); padding:var(--s-4); display:grid; gap:4px; }
+.acts .num{ font-family:var(--display); font-weight:800; color:var(--blu); font-size:var(--t-s); letter-spacing:.02em; }
+.acts .iter{ font-size:var(--t-s); color:var(--muted); }
+.chips{ display:flex; flex-wrap:wrap; gap:var(--s-2); }
+.chip{ display:inline-flex; align-items:center; min-height:32px; padding:3px 12px; border-radius:var(--r-xs); background:var(--surface); border:1px solid var(--rule-strong); font-size:var(--t-s); color:var(--navy); }
+.related{ display:grid; gap:var(--s-3); }
+.related a{ display:grid; gap:2px; padding:13px 15px; border:1px solid var(--rule); border-radius:var(--r); background:var(--surface); color:var(--navy); transition:border-color .18s, background .18s; }
+.related a:hover{ border-color:var(--blu); background:var(--brand-bg); }
+.related .src{ font-size:var(--t-xs); color:var(--ink-3); }
+.aside-note{ font-size:var(--t-s); color:var(--muted); }
+
+/* ---------- Pagina interna ---------- */
+.page-head{ position:relative; color:#fff; background:var(--blu); background-image:var(--grad-blu); padding:var(--s-6) 0 var(--s-7); overflow:clip; }
+.page-head::before{ content:""; position:absolute; inset:0; background:radial-gradient(50% 90% at 100% 0%, rgba(1,92,161,.4), transparent 65%); }
+/* tutto cio' che e' grigio sul bianco qui deve diventare chiaro: la testa e' blu */
+.page-head .small, .page-head .muted, .page-head .meta-line, .page-head .lede, .page-head p{ color:var(--on-dark-2); }
+.page-head .meta-line time, .page-head strong{ color:#fff; }
+/* ...ma le scatole BIANCHE dentro la testa blu restano scure: la regola sopra
+   le raggiungeva per ordine di cascata e le rendeva bianco su bianco */
+.page-head .status-box, .page-head .status-box p, .page-head .status-box .small, .page-head .status-box .status,
+.page-head .why, .page-head .why p{ color:var(--ink-2); }
+.page-head .status-box strong, .page-head .why strong{ color:var(--navy); }
+.page-head > .container{ position:relative; }
+.page-head h1{ color:#fff; max-width:22ch; }
+.page-head .lede{ color:var(--on-dark-2); margin-bottom:0; }
+.page-head .eyebrow{ color:var(--oro); }
+.breadcrumb{ font-size:var(--t-xs); color:var(--on-dark-2); margin:0 0 var(--s-4); }
+.breadcrumb ol{ list-style:none; margin:0; padding:0; display:flex; flex-wrap:wrap; gap:6px; }
+.breadcrumb li{ max-width:none; display:flex; gap:6px; align-items:center; }
+.breadcrumb li + li::before{ content:"/"; color:var(--on-dark-3); }
+.breadcrumb a{ color:#fff; display:inline-block; min-height:24px; padding:2px 0; text-decoration:underline; text-decoration-color:var(--divider-dark); text-underline-offset:.18em; }
+.breadcrumb a:hover{ text-decoration-color:var(--oro); }
+.article-meta{ display:flex; flex-wrap:wrap; gap:var(--s-2) var(--s-4); align-items:center; font-size:var(--t-s); color:var(--on-dark-2); margin:var(--s-4) 0 0; }
+.article-meta time{ color:#fff; font-weight:700; }
+.prose{ max-width:var(--measure); font-size:var(--t-l); line-height:1.7; }
+.prose p{ margin-bottom:1.15em; }
+.prose h2{ font-size:var(--t-h3); text-transform:none; letter-spacing:-.005em; margin-top:1.5em; }
+.prose h2::after{ display:none; }
+.prose a{ text-decoration:underline; text-underline-offset:.18em; }
+.article-figure{ margin:0 0 var(--s-6); border-radius:var(--r); overflow:hidden; border:1px solid var(--rule); background:var(--surface); }
+.article-figure figcaption{ font-size:var(--t-xs); color:var(--ink-3); padding:var(--s-3) var(--s-4); }
+.article-foot{ margin-top:var(--s-7); padding-top:var(--s-5); border-top:1px solid var(--rule); display:flex; flex-wrap:wrap; gap:var(--s-3); align-items:center; }
+.source-box{ background:var(--paper-2); border-left:5px solid var(--oro); border-radius:0 var(--r-sm) var(--r-sm) 0; padding:var(--s-4) var(--s-5); font-size:var(--t-s); color:var(--muted); margin-top:var(--s-6); max-width:var(--measure); }
+.press-orig-note{ font-size:var(--t-s); color:var(--muted); }
+.summary{ font-family:var(--display); font-weight:600; font-size:var(--t-lede); line-height:1.45; color:var(--navy); border-left:5px solid var(--oro); padding-left:var(--s-4); margin:var(--s-5) 0; max-width:var(--measure); }
+
+/* ---------- Chi sono ---------- */
+/* LO SGUARDO DEVE ENTRARE NELLA PAGINA. Nel ritratto il Senatore guarda verso
+   la sinistra dell'inquadratura: con la foto a sinistra e il testo a destra
+   guardava FUORI dalla pagina, e sotto la foto restava un vuoto alto quanto la
+   colonna di testo. Sopra i 900px le aree sono nominate: testo a sinistra, foto
+   a destra (lo sguardo cade sul testo) e, sotto la foto, la scheda dei quattro
+   dati su due colonne, che riempie il vuoto. Su telefono resta l'ordine del
+   markup: foto, testo, scheda. */
+.bio-grid{ display:grid; gap:var(--s-6); }
+.bio-grid > .facts{ margin-top:0; }
+@media (min-width:900px){
+  .bio-grid{ grid-template-columns:minmax(0,1fr) minmax(0,1fr); grid-template-areas:"testo foto" "testo fatti"; column-gap:var(--s-8); row-gap:var(--s-5); align-items:start; }
+  .bio-grid > .bio-testo{ grid-area:testo; }
+  .bio-grid > .bio-figure{ grid-area:foto; max-width:none; }
+  .bio-grid > .facts{ grid-area:fatti; grid-template-columns:1fr 1fr; }
+  /* la lastra d'oro passa in basso a destra: la foto ora sta al bordo destro */
+  .bio-figure::before{ left:14px; right:-14px; }
+}
+/* la figura e' larga quanto la fotografia: la lastra oro dietro segue lei,
+   non la colonna, altrimenti resta un rettangolo vuoto accanto alla foto */
+.bio-figure{ margin:0; position:relative; max-width:540px; }
+.bio-figure img{ width:100%; height:auto; }
+.bio-figure img{ position:relative; z-index:1; border-radius:var(--r); box-shadow:var(--shadow-pop); }
+.bio-figure::before{ content:""; position:absolute; left:-14px; top:14px; right:14px; bottom:-14px; background:var(--oro); border-radius:var(--r); }
+/* La didascalia poggia sulla lastra d'oro: navy (7,6:1), non il grigio dei
+   sottotitoli (2,81:1). Rientro di 14px per restare dentro la lastra, che e'
+   spostata di 14px rispetto alla foto. */
+.bio-figure figcaption{ position:relative; z-index:1; font-size:var(--t-xs); font-weight:600; color:var(--navy); margin-top:var(--s-3); padding:0 14px; }
+.facts{ list-style:none; margin:var(--s-5) 0 0; padding:0; display:grid; gap:var(--s-3); }
+@media (min-width:600px){ .facts{ grid-template-columns:1fr 1fr; } }
+.facts li{ max-width:none; background:var(--surface); border:1px solid var(--rule); border-radius:var(--r); padding:var(--s-4); display:grid; gap:2px; box-shadow:var(--shadow-card); }
+.facts strong{ color:var(--navy); }
+.facts span{ font-size:var(--t-s); color:var(--muted); }
+/* Il percorso con le SPUNTE: il Senatore ce l'ha gia' sul suo sito */
+.tl{ position:relative; list-style:none; margin:0; padding:0; }
+.tl li{ position:relative; max-width:none; padding:0 0 var(--s-5) 46px; }
+.tl li::before{ content:""; position:absolute; left:0; top:2px; width:30px; height:30px; border-radius:50%; background:var(--oro); }
+.tl li::after{ content:""; position:absolute; left:9px; top:9px; width:12px; height:7px; border:0 solid var(--navy); border-width:0 0 3px 3px; transform:rotate(-45deg); }
+.tl .year{ display:block; font-family:var(--display); font-size:var(--t-xs); font-weight:800; letter-spacing:.08em; text-transform:uppercase; color:var(--blu); margin-bottom:4px; }
+.tl h3{ margin-bottom:6px; font-size:var(--t-card); }
+.tl p{ margin:0; color:var(--muted); }
+.roles{ list-style:none; margin:0; padding:0; display:grid; gap:var(--s-3); }
+.roles li{ max-width:none; background:var(--surface); border:1px solid var(--rule); border-radius:var(--r); padding:var(--s-4); display:grid; gap:4px; }
+.roles .org{ font-weight:700; color:var(--navy); }
+.roles .r{ font-size:var(--t-m); }
+.roles .d{ font-size:var(--t-xs); color:var(--muted); }
+.roles a{ display:inline-block; min-height:24px; padding:2px 0; }
+
+/* ---------- Rassegna stampa ---------- */
+.press-list{ list-style:none; margin:0; padding:0; border-top:2px solid var(--navy); }
+.press-list li{ max-width:none; border-bottom:1px solid var(--rule); }
+.press-list li[hidden]{ display:none; }
+.press-row{ display:grid; gap:4px var(--s-4); padding:var(--s-4) 6px; color:var(--ink-2); grid-template-columns:1fr; transition:background .15s, box-shadow .15s; }
+@media (min-width:720px){ .press-row{ grid-template-columns:118px minmax(0,1fr) auto; align-items:baseline; } }
+.press-row:hover{ background:var(--paper-2); box-shadow:inset 5px 0 0 var(--oro); }
+/* Il generatore emette .t per il titolo e .r/.s per la testata: il foglio
+   precedente aveva scritto .title e .src, che nel markup non esistono, quindi
+   da tre versioni le righe della rassegna erano di fatto senza stile. */
+.press-row time{ font-family:var(--display); font-size:var(--t-xs); font-weight:700; color:var(--blu); text-transform:uppercase; letter-spacing:.04em; white-space:nowrap; }
+.press-row .t{ font-weight:600; color:var(--navy); line-height:1.42; }
+.press-row:hover .t{ color:var(--blu); }
+.press-row .r{ display:inline-flex; flex-wrap:wrap; align-items:center; gap:8px; }
+.press-row .s{ font-size:var(--t-s); color:var(--muted); }
+
+/* RIGA ILLUSTRATA. La miniatura occupa la prima colonna per tutta l'altezza;
+   data, titolo e testata si impilano nella seconda. Le righe senza fotografia
+   non cambiano, cosi' l'archivio per anno resta l'elenco compatto di prima.
+   Il titolo NON va messo in una colonna stretta accanto alla data: con il
+   contenitore stretto della sezione finiva su otto righe da tre parole. */
+.press-row.con-foto{ grid-template-columns:92px minmax(0,1fr); align-items:start; row-gap:6px; }
+@media (min-width:720px){ .press-row.con-foto{ grid-template-columns:132px minmax(0,1fr); align-items:start; } }
+.press-row.con-foto .pr-foto{ grid-row:span 3; }
+.press-row.con-foto .t{ font-size:var(--t-m); }
+.pr-foto{ align-self:start; overflow:hidden; border-radius:var(--r-sm); background:var(--paper-2); line-height:0; }
+.pr-foto img{ width:100%; aspect-ratio:4/3; object-fit:cover; object-position:50% 34%; transition:transform .5s var(--ease); }
+.press-row.con-foto:hover .pr-foto img{ transform:scale(1.06); }
+@media (prefers-reduced-motion:reduce){ .press-row.con-foto:hover .pr-foto img{ transform:none; } }
+
+.press-year{ font-family:var(--display); font-size:var(--t-xs); font-weight:800; letter-spacing:.12em; text-transform:uppercase; color:var(--blu); margin:var(--s-6) 0 var(--s-3); }
+.outlets{ display:flex; flex-wrap:wrap; gap:var(--s-2) var(--s-5); padding:var(--s-4) 0; border-top:1px solid var(--rule); border-bottom:1px solid var(--rule); margin-bottom:var(--s-5); }
+.outlets span{ font-family:var(--display); font-weight:700; color:var(--muted); font-size:var(--t-s); }
+
+/* ---------- Contatti ---------- */
+.paths{ display:grid; gap:var(--s-5); }
+.paths.solo{ max-width:720px; }
+@media (min-width:900px){ .paths:not(.solo){ grid-template-columns:repeat(2, minmax(0,1fr)); } }
+.path{ position:relative; overflow:hidden; background:var(--surface); border:1px solid var(--rule); border-radius:var(--r); box-shadow:var(--shadow-card); padding:calc(var(--s-5) + 5px) var(--s-5) var(--s-5); display:grid; gap:var(--s-3); align-content:start; transition:transform .26s var(--ease), box-shadow .26s var(--ease); }
+.path::before{ content:""; position:absolute; left:0; right:0; top:0; height:5px; background:var(--oro); }
+.path:nth-child(2)::before{ background:var(--blu); }
+.path:hover{ transform:translateY(-4px); box-shadow:var(--shadow-pop); }
+.path h3{ margin:0; }
+.path p{ margin:0; color:var(--muted); font-size:var(--t-m); }
+.path .btn{ justify-self:start; margin-top:var(--s-2); }
+.contact-info{ list-style:none; margin:0; padding:0; display:grid; gap:var(--s-3); }
+.contact-info li{ max-width:none; display:grid; gap:2px; padding:var(--s-3) 0; border-bottom:1px solid var(--hair); }
+.contact-info a{ display:inline-block; min-height:24px; padding:2px 0; }
+.contact-info strong{ font-family:var(--display); font-size:var(--t-xs); letter-spacing:.1em; text-transform:uppercase; color:var(--blu); font-weight:800; }
+.form{ display:grid; gap:var(--s-4); max-width:640px; }
+.form-field{ display:grid; gap:6px; }
+.form-field label{ font-weight:700; color:var(--navy); }
+.form-field input, .form-field textarea, .form-field select{ font:inherit; color:var(--ink-2); background:var(--surface); border:1px solid var(--rule-strong); border-radius:var(--r-sm); padding:12px 14px; min-height:50px; width:100%; transition:border-color .18s, box-shadow .18s; }
+.form-field textarea{ min-height:160px; resize:vertical; }
+.form-field input:focus-visible, .form-field textarea:focus-visible, .form-field select:focus-visible{ border-color:var(--blu); }
+.form-field.invalid input, .form-field.invalid textarea{ border-color:var(--rosso); box-shadow:inset 4px 0 0 var(--rosso); }
+.form-error{ display:none; font-size:var(--t-s); color:var(--rosso); font-weight:700; }
+.form-field.invalid .form-error{ display:block; }
+.form-note, .form-required-note{ font-size:var(--t-s); color:var(--muted); margin:0; }
+
+/* ---------- Footer ---------- */
+.site-footer{ position:relative; background:var(--navy); background-image:linear-gradient(120deg, var(--navy-deep) 0%, var(--navy) 55%, var(--blu) 100%); color:var(--on-dark-2); padding:var(--s-8) 0 var(--s-6); margin-top:var(--s-8); font-size:var(--t-s); }
+.site-footer::before{ content:""; position:absolute; left:0; right:0; top:0; height:6px; background:var(--tricolore); }
+.footer-grid{ display:grid; gap:var(--s-6); padding-bottom:var(--s-6); border-bottom:1px solid var(--divider-dark); }
+@media (min-width:700px){ .footer-grid{ grid-template-columns:1.4fr 1fr 1fr 1fr; } }
+.site-footer h2{ color:var(--oro); font-family:var(--display); font-size:var(--t-xs); letter-spacing:.12em; text-transform:uppercase; margin-bottom:var(--s-3); font-weight:800; }
+.site-footer h2::after{ display:none; }
+.site-footer .wordmark{ display:block; color:#fff; margin-bottom:var(--s-3); }
+.site-footer .wordmark .name{ display:block; font-family:var(--display); font-weight:800; font-size:1.25rem; text-transform:uppercase; letter-spacing:-.01em; line-height:1.1; }
+.site-footer .wordmark .sub{ display:block; font-size:.875rem; font-weight:600; color:var(--oro); margin-top:4px; }
+.site-footer ul{ list-style:none; margin:0; padding:0; display:grid; gap:8px; }
+.site-footer li{ max-width:none; }
+.site-footer a{ color:#fff; display:inline-block; min-height:24px; padding:2px 0; }
+.site-footer a:hover{ color:var(--oro); text-decoration:underline; }
+.footer-bottom{ padding-top:var(--s-5); display:grid; gap:var(--s-3); font-size:var(--t-xs); color:var(--on-dark-3); }
+.footer-bottom p{ max-width:none; margin:0; }
+.footer-logo{ display:inline-block; background:#fff; border-radius:var(--r-sm); padding:8px 12px; margin-top:var(--s-3); }
+.footer-logo img{ height:34px; width:auto; }
+
+/* ---------- Ultime dalla stampa ---------- */
+.latest-press{ background:var(--paper-2); padding:var(--s-6) 0; border-bottom:1px solid var(--rule); }
+.latest-press .row{ display:block; padding-block:0; }
+.latest-press .lbl{ display:inline-flex; align-items:center; gap:10px; margin:0 0 var(--s-4); font-family:var(--display); font-size:var(--t-xs); font-weight:800; letter-spacing:.12em; text-transform:uppercase; color:var(--blu); }
+.latest-press .lbl::before{ content:""; width:28px; height:4px; background:var(--oro); border-radius:2px; flex-shrink:0; }
+.latest-press .lbl::after{ display:none; }
+.latest-press ul{ list-style:none; margin:0; padding:0; display:grid; gap:var(--s-4); grid-template-columns:1fr; }
+@media (min-width:700px){ .latest-press ul{ grid-template-columns:repeat(2, minmax(0,1fr)); } }
+@media (min-width:1040px){ .latest-press ul{ grid-template-columns:repeat(3, minmax(0,1fr)); } }
+.latest-press li{ max-width:none; }
+.latest-press a{ position:relative; overflow:hidden; display:block; height:100%; color:var(--ink-2); background:var(--surface); border:1px solid var(--rule); border-radius:var(--r); padding:calc(var(--s-4) + 5px) var(--s-4) var(--s-4); box-shadow:var(--shadow-card); transition:transform .26s var(--ease), box-shadow .26s var(--ease); }
+.latest-press a::before{ content:""; position:absolute; left:0; right:0; top:0; height:5px; background:var(--oro); }
+.latest-press a:hover, .latest-press a:focus-visible{ transform:translateY(-4px); box-shadow:var(--shadow-pop); }
+.latest-press time{ display:inline; color:var(--muted); font-size:var(--t-xs); }
+.latest-press b{ display:inline; color:var(--blu); font-weight:700; }
+.latest-press time::after{ content:" · "; color:var(--rule-strong); }
+.latest-press b::after{ content:""; display:block; height:6px; }
+.latest-press a > span:not(.visually-hidden){ display:inline; font-size:var(--t-m); line-height:1.4; color:var(--navy); font-weight:600; }
+.latest-press a:hover > span:not(.visually-hidden){ color:var(--blu); }
+
+/* ---------- 404 / ricerca ---------- */
+.empty{ text-align:center; padding:var(--s-8) 0; }
+.empty p{ margin-left:auto; margin-right:auto; }
+
+/* ---------- Telefono ---------- */
+@media (max-width:559px){
+  .media-card .body{ padding:var(--s-4); }
+  .media-card:hover, .media-card:focus-within{ transform:none; }
+  .timeline{ gap:var(--s-4); }
+  .tl li{ padding-left:42px; }
+  .chrono li{ padding-left:26px; }
+  .summary{ padding-left:14px; }
+}
+
+/* ==========================================================================
+   MOTION: le cose entrano dal basso, i filetti si tirano. Niente altro.
+   ========================================================================== */
+.js .rv{ opacity:0; transform:translateY(16px); transition:opacity .55s var(--ease), transform .55s var(--ease); }
+.js .rv.in{ opacity:1; transform:none; }
+.js .rv.d1{ transition-delay:.07s; } .js .rv.d2{ transition-delay:.14s; } .js .rv.d3{ transition-delay:.21s; }
+.js .rv.from-left, .js .rv.from-right, .js .rv.scale-in{ transform:translateY(16px); }
+.js .hero-photo.rv, .js .hero-copy.rv{ opacity:1; transform:none; }
+
+.back-top{ position:fixed; right:16px; bottom:16px; width:50px; height:50px; border-radius:var(--r-sm); z-index:150; background:var(--oro); border:0; color:var(--navy); display:inline-flex; align-items:center; justify-content:center; cursor:pointer; opacity:0; visibility:hidden; pointer-events:none; transform:translateY(8px); transition:opacity .2s, transform .2s var(--ease), visibility 0s .2s, background .18s; box-shadow:var(--shadow-pop); }
+.back-top:hover{ background:var(--oro-scuro); }
+.back-top.show{ opacity:1; visibility:visible; pointer-events:auto; transform:none; transition-delay:0s; }
+.back-top svg{ width:20px; height:20px; stroke:currentColor; fill:none; stroke-width:2.4; stroke-linecap:round; }
+
+@media (prefers-reduced-motion:reduce){
+  *, *::before, *::after{ animation:none !important; transition:none !important; scroll-behavior:auto !important; }
+  .js .rv{ opacity:1 !important; transform:none !important; }
+  .media-card:hover, .now-card:hover, .path:hover, .role-card:hover, .latest-press a:hover{ transform:none; }
+  .media-card .media img{ transform:none !important; }
+}
+
+/* ---------- Stampa ---------- */
+@media print{
+  .site-header, .preview-banner, .back-top, .site-footer, .filters, .skip-link, .latest-press, .fissa{ display:none !important; }
+  body{ background:#fff; color:#000; font-size:11pt; }
+  a{ color:#000; }
+  a[href^="http"]::after{ content:" (" attr(href) ")"; font-size:.85em; }
+}
+
+/* ---------- Tasto Home (v28): la casetta a sinistra del logo, chiesta dal
+   Senatore. Stesso disegno del tasto di ricerca; pieno di navy sulla home. */
+.home-btn{ flex:0 0 auto; }
+.home-btn[aria-current="page"]{ background:var(--navy); color:#fff; border-color:var(--navy); }
+.home-btn[aria-current="page"]:hover{ background:var(--blu); border-color:var(--blu); color:#fff; }
+
+/* ---------- Modulo di segnalazione (v28): casella di conferma, campo esca
+   per i robot (fuori schermo, mai visibile), esito dell'invio. */
+.grid-top{ align-items:start; }
+.form-field.check{ grid-template-columns:auto minmax(0,1fr); align-items:start; column-gap:12px; }
+.form-field.check input{ width:24px; height:24px; min-height:0; margin:2px 0 0; padding:0; accent-color:var(--blu); }   /* 24px: bersaglio minimo WCAG 2.5.8 */
+.form-field.check label a{ display:inline-block; min-height:24px; }
+.form-field.check label{ font-weight:500; color:var(--ink-2); }
+.form-field.check .form-error{ grid-column:1 / -1; }
+.form-field.check.invalid label{ color:var(--rosso); }
+.hp{ position:absolute; left:-9999px; top:auto; width:1px; height:1px; overflow:hidden; }
+.form-status{ display:none; margin:0 0 var(--s-5); padding:var(--s-4) var(--s-5); border-radius:var(--r-sm); border-left:6px solid var(--verde); background:#EAF6EC; color:var(--navy); }
+.form-status.show{ display:block; }
+.form-status.err{ border-left-color:var(--rosso); background:#FBEBEC; }
+.form-status h3{ margin:0 0 6px; font-size:var(--t-l); }
+.form-status p{ margin:0; }
+.cf-turnstile{ min-height:65px; }

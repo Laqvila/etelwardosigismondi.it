@@ -1,0 +1,44 @@
+# Worker "segnala": riceve il modulo di segnalazione del sito e lo recapita
+# via email alla casella istituzionale del Senatore. Nessun dato viene salvato.
+#
+#   npx wrangler login                      (una volta, apre il browser)
+#   npx wrangler secret put TURNSTILE_SECRET (chiave segreta di Turnstile)
+#   npx wrangler deploy
+#
+# Passaggio di consegne: chi ha accesso all'account Cloudflare che ospita la
+# zona etelwardosigismondi.it puo' ridistribuire questo Worker cosi' com'e'.
+name = "etelwardosigismondi-segnala"
+main = "src/segnala.js"
+compatibility_date = "2026-09-01"
+workers_dev = true
+
+# In produzione risponde sul dominio del sito: il modulo lo chiama come /api/segnala,
+# stessa origine, quindi la CSP resta 'self'.
+routes = [
+  { pattern = "etelwardosigismondi.it/api/*", zone_name = "etelwardosigismondi.it" },
+  { pattern = "www.etelwardosigismondi.it/api/*", zone_name = "etelwardosigismondi.it" },
+]
+
+# Invio email tramite Email Routing della zona: il destinatario deve essere un
+# indirizzo di destinazione VERIFICATO in Cloudflare > Email > Email Routing.
+[[send_email]]
+name = "POSTA"
+
+# Limite per indirizzo IP: 5 invii al minuto. Oltre, risposta 429.
+[[unsafe.bindings]]
+name = "LIMITE"
+type = "ratelimit"
+namespace_id = "1001"
+simple = { limit = 5, period = 60 }
+
+[vars]
+# Mittente: un indirizzo del dominio (Email Routing lo accetta anche se non
+# esiste una casella). Il Reply-To e' l'email di chi compila il modulo.
+MITTENTE = "segnalazioni@etelwardosigismondi.it"
+# Destinatario: la casella istituzionale, appena verificata in Email Routing.
+# Finche' la verifica non e' stata cliccata dallo staff, un indirizzo di prova.
+DESTINATARIO = "etelwardo.sigismondi@senato.it"
+# Origini da cui il modulo puo' chiamare il Worker (CORS): sito e anteprima.
+ORIGINI = "https://etelwardosigismondi.it,https://www.etelwardosigismondi.it,https://laqvila.github.io"
+# Dove rimandare chi invia senza JavaScript.
+SITO = "https://etelwardosigismondi.it"
