@@ -79,8 +79,11 @@ npx wrangler secret put TURNSTILE_SECRET   # chiave segreta del widget Turnstile
 npx wrangler deploy
 ```
 
-Il destinatario, il mittente e le origini ammesse sono in `_worker/wrangler.toml`
-(`[vars]`). Il destinatario deve essere un **indirizzo verificato** in
+Il mittente e le origini ammesse sono in `_worker/wrangler.toml` (`[vars]`).
+Il destinatario provvisorio è un indirizzo di prova e, siccome il repository è
+pubblico, sta solo nella dashboard Cloudflare (Workers → etelwardosigismondi-segnala
+→ Settings → Variables). `keep_vars = true` lo conserva a ogni `wrangler deploy`.
+Il destinatario deve essere un **indirizzo verificato** in
 Cloudflare → Email Routing → Destination addresses.
 
 ### Modalità provvisoria (attiva finché la casella istituzionale non è verificata)

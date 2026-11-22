@@ -11,6 +11,8 @@ name = "etelwardosigismondi-segnala"
 main = "src/segnala.js"
 compatibility_date = "2026-09-01"
 workers_dev = true
+# conserva le variabili impostate nella dashboard (vedi DESTINATARIO sotto)
+keep_vars = true
 
 # In produzione risponde sul dominio del sito: il modulo lo chiama come /api/segnala,
 # stessa origine, quindi la CSP resta 'self'.
@@ -40,7 +42,11 @@ MITTENTE = "segnalazioni@etelwardosigismondi.it"
 # deve cliccare il link nell'email di Cloudflare). Finche' non risulta "Verified",
 # le segnalazioni arrivano all'indirizzo di prova; poi si sostituisce e si rifa'
 # `npx wrangler deploy`.
-DESTINATARIO = "mirko.rocci@gmail.com"
+# Il destinatario di prova NON sta qui, perche' questo repository e' pubblico:
+# e' impostato come variabile nella dashboard Cloudflare (Workers >
+# etelwardosigismondi-segnala > Settings > Variables) e keep_vars = true lo
+# conserva a ogni deploy. Quando la casella istituzionale e' verificata si
+# scrive qui DESTINATARIO = "etelwardo.sigismondi@senato.it" e si rifa' il deploy.
 # Origini da cui il modulo puo' chiamare il Worker (CORS): sito e anteprima.
 ORIGINI = "https://etelwardosigismondi.it,https://www.etelwardosigismondi.it,https://laqvila.github.io"
 # Dove rimandare chi invia senza JavaScript.
